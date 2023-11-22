@@ -108,6 +108,24 @@ export default {
 				console.log('----response.data----');
 				console.log(response.data);
 				//alert(response.data);
+				this.probaFs2();
+			} catch (e) {
+				alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
+			} finally {
+			}
+		},
+
+		async probaFs2() {
+			try {
+				//const url = '/text.txt';
+				const url = '/php_modules/data_cards.txt';
+				//const response = await axios.get(url); // , { params: { id: '1' } }
+				const response = await axios.get(url);
+				console.log('----2. response.data----');
+				//console.log(toJSON(response.data));
+				console.log(response.data);
+				console.table(response.data.cardsContent);
+				this.cardsContent = response.data.cardsContent;
 			} catch (e) {
 				alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
 			} finally {
