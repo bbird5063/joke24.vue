@@ -1,13 +1,13 @@
 <template>
-	<div class="root">
+	<div v-if="$store.state.card.cardsContent && $store.state.card.rate" class="root">
 		<div class="screenshot-1">
 			<div id="scr_1">
-				<div style="padding-right: 18px;padding-top: 10px;">{{ rates.buyRate }}</div>
-				<div style="padding-left: 0;padding-top: 10px;">{{ rates.sellRate }}</div>
+				<div style="padding-right: 18px;padding-top: 10px;">{{ $store.state.card.rate.buyRate }}</div>
+				<div style="padding-left: 0;padding-top: 10px;">{{ $store.state.card.rate.sellRate }}</div>
 				<div style="padding-right: 5px;padding-top: 10px;"></div>
 			</div>
 		</div>
-		<div v-if="$store.state.card.cardsContent" id="carouselExample" class="carousel slide" data-bs-touch="true">
+		<div id="carouselExample" class="carousel slide" data-bs-touch="true">
 			<div class="carousel-inner">
 				<div class="carousel-item active">
 					<div class="card_content">
@@ -62,41 +62,6 @@ import axios from 'axios';
 export default {
 	data() {
 		return {
-			rates: {
-				buyRate: '36.08',
-				sellRate: '37.45',
-			},
-			/*
-			cardsContent: {
-				credidCard: {
-					nameCard: 'Картка універсальна',
-					shortNameCard: 'Картка універсальна',
-					numberCard: '5363 5421 8796 8945',
-					shortNumberCard: '5363 **** **** 8945',
-					periodCard: '10/24',
-					cvv2: '351',
-					sumCard: '4 452 UAH',
-				},
-				paymentCard: {
-					nameCard: 'Картка для виплат',
-					shortNameCard: 'Картка для виплат',
-					numberCard: '4149 4996 4364 8208',
-					shortNumberCard: '4149 **** **** 8208',
-					periodCard: '11/24',
-					cvv2: '563',
-					sumCard: '12 UAH',
-				},
-				helpCard: {
-					nameCard: 'Картка єПідтримка',
-					shortNameCard: 'Картка єПідтримка',
-					numberCard: '4149 4992 4532 1434',
-					shortNumberCard: '4149 **** **** 1434',
-					periodCard: '12/25',
-					cvv2: '453',
-					sumCard: '0 UAH',
-				},
-			},
-			*/
 		}
 	},
 

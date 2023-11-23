@@ -1,6 +1,7 @@
 <?php
 $data = [];
 $filename = '../../public/json_database/card.json';
+//$filename = '../../public/json_database/rate.json';
 require 'config.php';
 
 $connect = new mysqli(BBR_DBSERVER, BBR_DBUSER, BBR_DBPASSWORD, BBR_DATABASE);
@@ -15,6 +16,16 @@ if ($result) {
 		unset($arrFields);
 	}
 }
+
+$sql = "SELECT * FROM rate;";
+$result = $connect->query($sql);
+if ($result) {
+	$result->data_seek(0);
+	$arrFields = $result->fetch_array(MYSQLI_ASSOC);
+	$data['rate']['buyRate'] = $arrFields['buyRate'];
+	$data['rate']['sellRate'] = $arrFields['sellRate'];
+}
+
 $connect->close();
 
 $data_cards = json_encode($data);

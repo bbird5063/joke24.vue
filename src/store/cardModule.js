@@ -3,12 +3,16 @@ import axios from 'axios';
 export const cardModule = {
 	state: () => ({
 		cardsContent: null,
+		rate: null,
 		isLocalhost: false,
 	}),
 
 	mutations: {
 		setCardsContent(state, cardsContent) {
 			state.cardsContent = cardsContent;
+		},
+		setRate(state, rate) {
+			state.rate = rate;
 		},
 		setIsLocalhost(state) {
 			if (
@@ -34,9 +38,12 @@ export const cardModule = {
 				}
 				const response = await axios.get(url);
 				commit('setCardsContent', response.data.cardsContent);
+				commit('setRate', response.data.rate);
 
 				console.log('----cardModule.js: state.cardsContent----');
 				console.log(state.cardsContent);
+				console.log('----cardModule.js: state.rate----');
+				console.log(state.rate);
 
 			} catch (e) {
 				alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
