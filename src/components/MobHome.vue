@@ -1,9 +1,9 @@
 <template>
-	<div v-if="$store.state.card.cardsContent && $store.state.card.rate" class="root">
+	<div v-if="cardsContent && rate" class="root">
 		<div class="screenshot-1">
 			<div id="scr_1">
-				<div style="padding-right: 18px;padding-top: 10px;">{{ $store.state.card.rate.buyRate }}</div>
-				<div style="padding-left: 0;padding-top: 10px;">{{ $store.state.card.rate.sellRate }}</div>
+				<div style="padding-right: 18px;padding-top: 10px;">{{ rate.buyRate }}</div>
+				<div style="padding-left: 0;padding-top: 10px;">{{ rate.sellRate }}</div>
 				<div style="padding-right: 5px;padding-top: 10px;"></div>
 			</div>
 		</div>
@@ -12,31 +12,31 @@
 				<div class="carousel-item active">
 					<div class="card_content">
 						<div id="credidCard" class="card">
-							<div class="item item_1">{{ $store.state.card.cardsContent.credidCard.shortNameCard }}</div>
-							<div class="item item_2">{{ $store.state.card.cardsContent.credidCard.shortNumberCard }}</div>
-							<div class="item item_3">{{ $store.state.card.cardsContent.credidCard.periodCard }}</div>
-							<div class="item item_4">{{ $store.state.card.cardsContent.credidCard.sumCard }}</div>
+							<div class="item item_1">{{ cardsContent.credidCard.shortNameCard }}</div>
+							<div class="item item_2">{{ cardsContent.credidCard.shortNumberCard }}</div>
+							<div class="item item_3">{{ cardsContent.credidCard.periodCard }}</div>
+							<div class="item item_4">{{ cardsContent.credidCard.sumCard }}</div>
 						</div>
 					</div>
 				</div>
 				<div class="carousel-item">
 					<div class="card_content">
 						<div id="paymentCard" class="card">
-							<div class="item item_1">{{ $store.state.card.cardsContent.paymentCard.shortNameCard }}</div>
-							<div class="item item_2">{{ $store.state.card.cardsContent.paymentCard.shortNumberCard }}</div>
-							<div class="item item_3">{{ $store.state.card.cardsContent.paymentCard.periodCard }}</div>
-							<div class="item item_4">{{ $store.state.card.cardsContent.paymentCard.sumCard }}</div>
+							<div class="item item_1">{{ cardsContent.paymentCard.shortNameCard }}</div>
+							<div class="item item_2">{{ cardsContent.paymentCard.shortNumberCard }}</div>
+							<div class="item item_3">{{ cardsContent.paymentCard.periodCard }}</div>
+							<div class="item item_4">{{ cardsContent.paymentCard.sumCard }}</div>
 						</div>
 					</div>
 				</div>
 				<div class="carousel-item">
 					<div class="card_content">
 						<div id="helpCard" class="card">
-							<div class="item item_1">{{ $store.state.card.cardsContent.helpCard.shortNameCard }}</div>
-							<div class="item item_2">{{ $store.state.card.cardsContent.helpCard.shortNumberCard }}</div>
-							<div class="item item_3">{{ $store.state.card.cardsContent.helpCard.periodCard }}</div>
+							<div class="item item_1">{{ cardsContent.helpCard.shortNameCard }}</div>
+							<div class="item item_2">{{ cardsContent.helpCard.shortNumberCard }}</div>
+							<div class="item item_3">{{ cardsContent.helpCard.periodCard }}</div>
 							<div class="item item_4">
-								<div>{{ $store.state.card.cardsContent.helpCard.sumCard }}</div>
+								<div>{{ cardsContent.helpCard.sumCard }}</div>
 								<div></div>
 							</div>
 						</div>
@@ -59,6 +59,7 @@
 
 <script>
 import axios from 'axios';
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
 	data() {
 		return {
@@ -66,46 +67,21 @@ export default {
 	},
 
 	methods: {
-		async probaFs() {
-			try {
-				//const url = '/text.txt';
-				const url = '/php_modules/controller_cards.php';
-				//const response = await axios.get(url); // , { params: { id: '1' } }
-				const response = await axios.get(url);
-				console.log('----response.data----');
-				console.log(response.data.cardsContent);
-				//alert(response.data);
-				this.probaFs2();
-			} catch (e) {
-				alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
-			} finally {
-			}
-		},
-
-		async probaFs2() {
-			try {
-				//const url = '/text.txt';
-				const url = '/php_modules/data_cards.txt';
-				//const response = await axios.get(url); // , { params: { id: '1' } }
-				const response = await axios.get(url);
-				console.log('----2. response.data----');
-				//console.log(toJSON(response.data));
-				console.log(response.data);
-				console.table(response.data.cardsContent);
-				this.cardsContent = response.data.cardsContent;
-			} catch (e) {
-				alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
-			} finally {
-			}
-		},
-
+		...mapActions({
+			updateCards: 'card/updateCards'
+		}),
 	},
 
 	mounted() {
-		//this.$store.commit('card/setIsLocalhost');
-		this.$store.dispatch('card/updateCards');
+		this.updateCards();
 	},
 
+	computed: {
+		...mapState({
+			cardsContent: state => state.card.cardsContent,
+			rate: state => state.card.rate,
+		}),
+	},
 }
 </script>
 
