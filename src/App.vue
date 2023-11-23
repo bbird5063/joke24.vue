@@ -11,6 +11,10 @@ export default {
 	//components: {
 	//	Navbar,
 	//},
+	mounted() {
+		//this.$store.commit('card/setIsLocalhost');
+		//this.$store.dispatch('card/updateCards');
+	},
 };
 </script>
 
