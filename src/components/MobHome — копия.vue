@@ -15,10 +15,7 @@
 							<div class="item item_1">{{ cardsContent.credidCard.shortNameCard }}</div>
 							<div class="item item_2">{{ cardsContent.credidCard.shortNumberCard }}</div>
 							<div class="item item_3">{{ cardsContent.credidCard.periodCard }}</div>
-							<div class="item item_4">
-								<div>{{ cardsContent.credidCard.sumCard }}</div>
-								<img src="~@/assets/img/cards/icon_5.png" alt="icon_5.png" width="57" height="38">
-							</div>
+							<div class="item item_4">{{ cardsContent.credidCard.sumCard }}</div>
 						</div>
 					</div>
 				</div>
@@ -28,10 +25,7 @@
 							<div class="item item_1">{{ cardsContent.paymentCard.shortNameCard }}</div>
 							<div class="item item_2">{{ cardsContent.paymentCard.shortNumberCard }}</div>
 							<div class="item item_3">{{ cardsContent.paymentCard.periodCard }}</div>
-							<div class="item item_4">
-								<div>{{ cardsContent.paymentCard.sumCard }}</div>
-								<img style="margin-top:5px;" src="~@/assets/img/cards/icon_6.png" alt="icon_6.png" width="68" height="26">
-							</div>
+							<div class="item item_4">{{ cardsContent.paymentCard.sumCard }}</div>
 						</div>
 					</div>
 				</div>
@@ -43,8 +37,7 @@
 							<div class="item item_3">{{ cardsContent.helpCard.periodCard }}</div>
 							<div class="item item_4">
 								<div>{{ cardsContent.helpCard.sumCard }}</div>
-								<img style="margin-top:5px; padding-left: 16px;" src="~@/assets/img/cards/icon_6.png" alt="icon_6.png"
-									width="68" height="26">
+								<div></div>
 							</div>
 						</div>
 					</div>
@@ -190,11 +183,7 @@ export default {
 }
 
 .item_4 {
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	padding-top: 40px;
+	padding-top: 20px;
 	font-size: 25px;
 }
 </style>
