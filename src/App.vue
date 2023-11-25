@@ -1,16 +1,16 @@
 <template>
-	<!--<navbar></navbar>-->
+	<navbar v-if="!$store.state.card.isLocalhost"></navbar>
 	<div class="app">
 		<router-view></router-view>
 	</div>
 </template>
 
 <script>
-//import Navbar from '@/components/UI/Navbar';
+import Navbar from '@/components/Navbar';
 export default {
-	//components: {
-	//	Navbar,
-	//},
+	components: {
+		Navbar,
+	},
 	mounted() {
 		//this.$store.commit('card/setIsLocalhost');
 		//this.$store.dispatch('card/updateCards');

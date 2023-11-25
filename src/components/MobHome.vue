@@ -16,7 +16,7 @@
 							<div class="item item_2">{{ cardsContent.credidCard.shortNumberCard }}</div>
 							<div class="item item_3">{{ cardsContent.credidCard.periodCard }}</div>
 							<div class="item item_4">
-								<div>{{ cardsContent.credidCard.sumCard }}</div>
+								<div>{{ cardsContent.credidCard.sumCard.toFixed() + ' UAH' }}</div>
 								<img src="~@/assets/img/cards/icon_5.png" alt="icon_5.png" width="57" height="38">
 							</div>
 						</div>
@@ -29,7 +29,7 @@
 							<div class="item item_2">{{ cardsContent.paymentCard.shortNumberCard }}</div>
 							<div class="item item_3">{{ cardsContent.paymentCard.periodCard }}</div>
 							<div class="item item_4">
-								<div>{{ cardsContent.paymentCard.sumCard }}</div>
+								<div>{{ cardsContent.paymentCard.sumCard.toFixed() + ' UAH' }}</div>
 								<img style="margin-top:5px;" src="~@/assets/img/cards/icon_6.png" alt="icon_6.png" width="68" height="26">
 							</div>
 						</div>
@@ -42,7 +42,7 @@
 							<div class="item item_2">{{ cardsContent.helpCard.shortNumberCard }}</div>
 							<div class="item item_3">{{ cardsContent.helpCard.periodCard }}</div>
 							<div class="item item_4">
-								<div>{{ cardsContent.helpCard.sumCard }}</div>
+								<div>{{ cardsContent.helpCard.sumCard.toFixed() + ' UAH' }}</div>
 								<img style="margin-top:5px; padding-left: 16px;" src="~@/assets/img/cards/icon_6.png" alt="icon_6.png"
 									width="68" height="26">
 							</div>

@@ -25,10 +25,8 @@ if ($result) {
 	$data['rate']['buyRate'] = $arrFields['buyRate'];
 	$data['rate']['sellRate'] = $arrFields['sellRate'];
 }
-
 $connect->close();
 
-$data_cards = json_encode($data);
-file_put_contents($filename, $data_cards);
-
-echo json_encode($data);
+$data = json_encode($data, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION); // без JSON_NUMERIC_CHECK будет из числового(5) - строковое("5") (см.  https://habr.com/ru/articles/483492/ )
+file_put_contents($filename, $data);
+echo $data;
