@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import CardHome from '@/pages/cards/CardHome.vue';
+import CardList from '@/pages/cards/CardList.vue';
 
 const routes = [
 	{
@@ -9,6 +10,10 @@ const routes = [
 	{
 		path: '/CardHome',
 		component: CardHome,
+	},
+	{
+		path: '/CardList',
+		component: CardList,
 	},
 ];
 

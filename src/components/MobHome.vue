@@ -11,7 +11,7 @@
 			<div class="carousel-inner">
 				<div class="carousel-item active">
 					<div class="card_content">
-						<div id="credidCard" class="card">
+						<div id="credidCard" @click="openCurrentCard('credidCard')" class="card">
 							<div class="item item_1">{{ cardsContent.credidCard.shortNameCard }}</div>
 							<div class="item item_2">{{ cardsContent.credidCard.shortNumberCard }}</div>
 							<div class="item item_3">{{ cardsContent.credidCard.periodCard }}</div>
@@ -24,7 +24,7 @@
 				</div>
 				<div class="carousel-item">
 					<div class="card_content">
-						<div id="paymentCard" class="card">
+						<div id="paymentCard" @click="openCurrentCard('paymentCard')" class="card">
 							<div class="item item_1">{{ cardsContent.paymentCard.shortNameCard }}</div>
 							<div class="item item_2">{{ cardsContent.paymentCard.shortNumberCard }}</div>
 							<div class="item item_3">{{ cardsContent.paymentCard.periodCard }}</div>
@@ -37,7 +37,7 @@
 				</div>
 				<div class="carousel-item">
 					<div class="card_content">
-						<div id="helpCard" class="card">
+						<div id="helpCard" @click="openCurrentCard('helpCard')" class="card">
 							<div class="item item_1">{{ cardsContent.helpCard.shortNameCard }}</div>
 							<div class="item item_2">{{ cardsContent.helpCard.shortNumberCard }}</div>
 							<div class="item item_3">{{ cardsContent.helpCard.periodCard }}</div>
@@ -74,9 +74,17 @@ export default {
 	},
 
 	methods: {
+		...mapMutations({
+			setCurrentCard: 'card/setCurrentCard',
+		}),
 		...mapActions({
 			updateCards: 'card/updateCards'
 		}),
+
+		openCurrentCard(card) {
+			this.setCurrentCard(card);
+			this.$router.push('/CardList');
+		}
 	},
 
 	mounted() {
@@ -87,13 +95,14 @@ export default {
 		...mapState({
 			cardsContent: state => state.card.cardsContent,
 			rate: state => state.card.rate,
+			currentCard: state => state.card.currentCard,
 		}),
 	},
 }
 </script>
 
 
-<style>
+<style scoped>
 .root {
 	display: flex;
 	flex-direction: column;

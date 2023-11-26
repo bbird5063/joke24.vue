@@ -2,18 +2,13 @@ import axios from 'axios';
 
 export const cardModule = {
 	state: () => ({
+		isLocalhost: null,
 		cardsContent: null,
 		rate: null,
-		isLocalhost: false,
+		currentCard: 'credidCard',
 	}),
 
 	mutations: {
-		setCardsContent(state, cardsContent) {
-			state.cardsContent = cardsContent;
-		},
-		setRate(state, rate) {
-			state.rate = rate;
-		},
 		setIsLocalhost(state) {
 			if (
 				location.hostname.includes('192.168.0.100') ||
@@ -23,6 +18,15 @@ export const cardModule = {
 			} else {
 				state.isLocalhost = false;
 			}
+		},
+		setCardsContent(state, cardsContent) {
+			state.cardsContent = cardsContent;
+		},
+		setRate(state, rate) {
+			state.rate = rate;
+		},
+		setCurrentCard(state, currentCard) {
+			state.currentCard = currentCard;
 		},
 	},
 
