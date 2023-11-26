@@ -9,15 +9,12 @@
 			<div class="collapse navbar-collapse" id="navbarNavDropdown">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="#">Home</a>
+						<a @click.prevent="$router.push('/CardHome')" class="nav-link active" aria-current="page" href="#">View</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Features</a>
+						<a class="nav-link" href="#">Edit</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Pricing</a>
-					</li>
-					<li class="nav-item dropdown">
+					<!--<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
 							aria-expanded="false">
 							Карты
@@ -27,7 +24,7 @@
 							<li><a class="dropdown-item" href="#">Another action</a></li>
 							<li><a class="dropdown-item" href="#">Something else here</a></li>
 						</ul>
-					</li>
+					</li>-->
 				</ul>
 			</div>
 		</div>
@@ -47,14 +44,14 @@ export default {
 		//	fadeOut: 'auth/fadeOut',
 		//	fadeIn: 'auth/fadeIn',
 		//}),
-		activePoint(point) {
-			this.$router.push(point.path);
-			this.currentPoint = point.name;
-		},
-		openAuthModal(authModal, authMode) {
-			//this.$emit('openModal', authModal);
-			//this.$store.commit('auth/setAuthMode', authMode);
-		},
+		//activePoint(point) {
+		//	this.$router.push(point.path);
+		//	this.currentPoint = point.name;
+		//},
+		//openAuthModal(authModal, authMode) {
+		//this.$emit('openModal', authModal);
+		//this.$store.commit('auth/setAuthMode', authMode);
+		//},
 	},
 };
 </script>

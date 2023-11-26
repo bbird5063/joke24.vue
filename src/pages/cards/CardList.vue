@@ -8,7 +8,6 @@
 </template>
 
 <script>
-//$store.state.card.
 import MobList from '@/components/MobList';
 import MobCredit from '@/components/MobCredit';
 import MobPayment from '@/components/MobPayment';

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const cardModule = {
 	state: () => ({
-		isLocalhost: null,
+		isLocalhost: true,
 		cardsContent: null,
 		rate: null,
 		currentCard: 'credidCard',
