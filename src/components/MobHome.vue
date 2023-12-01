@@ -88,7 +88,7 @@ export default {
 	},
 
 	mounted() {
-		this.updateCards();
+		//this.updateCards();
 	},
 
 	computed: {

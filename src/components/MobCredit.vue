@@ -1,90 +1,56 @@
 <template>
-	<div class="root">
+	<div v-if="cardsContent" class="root">
 		<div v-show="!cardVisible" class="cardHeader">
-			<!--<img src="~@/assets/img/cards/credit/00_header.png" alt="00_header.png" width="350px" height="60px">-->
+			<div @click="$router.push('/CardHome')" class="item item_1"></div>
+			<div class="item item_2"></div>
+			<div class="item item_3"></div>
+			<div class="item item_4"></div>
 		</div>
 		<div v-show="cardVisible" class="card">
+			<div @click="$router.push('/CardHome')" class="item item_1"></div>
+			<div class="item item_2"></div>
+			<div class="item item_3"></div>
+			<div class="item item_4"></div>
+			<div class="item item_5"></div>
+			<div class="item item_6">{{ cardsContent.credidCard.shortNumberCard }}</div>
+			<div class="item item_7">{{ cardsContent.credidCard.periodCard }}</div>
+			<div class="item item_8">CVV2</div>
+			<div class="item item_9"></div>
+			<div class="item item_10">{{ cardsContent.credidCard.sumCard.toFixed(2) + ' UAH' }}</div>
+			<div class="item item_11"></div>
+			<div class="item item_12">{{ cardsContent.credidCard.limitCard.toFixed(2) + ' UAH&nbsp;&nbsp;' }}<i
+					class="fa fa-chevron-right"></i></div>
+			<div class="item item_13"></div>
+			<div class="item item_14">{{ cardsContent.credidCard.debtCard.toFixed(2) + ' UAH&nbsp;&nbsp;' }}<i
+					class="fa fa-chevron-right"></i></div>
+			<div class="item item_15"></div>
+			<div class="item item_16">{{ cardsContent.credidCard.minSumCard.toFixed(2) + ' UAH&nbsp;&nbsp;' }}<i
+					class="fa fa-info"></i></div>
+			<div class="item item_17"></div>
 		</div>
-
-		<div @click="cardVisible = !cardVisible" class="listPayment">
-			<i class="fa fa-window-minimize"></i>
-			<transition name="spab">
-				<div v-show="!cardVisible">
-					Середа, 01 листопада 2023 -130.42 UAH
-					00:00
-					Списання відсотків за використання кредитного ліміту. За ставкою 3.4 відсотка нараховано 130.42 UAH
-					-130.42
-					-3 055.68
-					Неділя, 15 жовтня 2023 -37.37 UAH
-					11:47
-					+380686803471
-					-37.37
-					2.00
-					-2 925.26
-					П'ятниця, 13 жовтня 2023 1 947.00 UAH
-					20:36
-					Зі своєї картки 41**08
-					1 947.00
-					-2 887.89
-					Четвер, 12 жовтня 2023 -20.00 UAH
-					04:07
-					Комісія за обслуговування (членський внесок) за 09.2023
-					-20.00
-					-4 834.89
-					П'ятниця, 06 жовтня 2023 243.97 UAH
-					02:43
-					Зі своєї картки 41**08
-					243.97
-					-4 814.89
-					Неділя, 01 жовтня 2023 -179.41 UAH
-					00:00
-					Списання відсотків за використання кредитного ліміту. За ставкою 3.4 відсотка нараховано 179.41 UAH
-					-179.41
-					-5 058.86
-					Середа, 20 вересня 2023 -57.57 UAH
-					12:16
-					+380686803471
-					-57.57
-					2.00
-					-4 879.45
-					Четвер, 14 вересня 2023 -40.39 UAH
-					12:29
-					TOB «ГК «Нафтогаз України» (Київ)
-					-40.39
-					1.00
-					-4 821.88
-					Середа, 13 вересня 2023 -1 044.10 UAH
-					04:38
-					Oplata komunal'nykh posluh
-					-1 044.10
-					-4 781.49
-					Вівторок, 12 вересня 2023 -20.00 UAH
-					03:42
-					Комісія за обслуговування (членський внесок) за 08.2023
-					-20.00
-					-3 737.39
-					П'ятниця, 08 вересня 2023 3 560.96 UAH
-					13:43
-					Зі своєї картки 41**08
-					3 210.00
-					-3 717.39
-					13:29
-					Зі своєї картки 41**08
-					350.96
-					-6 927.39
-					П'ятниця, 01 вересня 2023 -259.14 UAH
-					00:00
-					Списання відсотків за використання кредитного ліміту. За ставкою 3.4 відсотка нараховано 259.14 UAH
-					-259.14
-					-7 278.35
-				</div>
-			</transition>
+		<div class="listPayment">
+			<div @click="cardVisible = !cardVisible" style="text-align:center;">
+				<i class="fa fa-window-minimize"></i>
+			</div>
+			<div>
+				Середа, 01 листопада 2023 -130.42 UAH
+				00:00
+				Списання відсотків за використання кредитного ліміту. За ставкою 3.4 відсотка нараховано 130.42 UAH
+				-130.42
+				-3 055.68
+				Неділя, 15 жовтня 2023 -37.37 UAH
+				11:47
+				+380686803471
+				-37.37
+				2.00
+				-2 925.26
+			</div>
 		</div>
-
 	</div>
 </template>
 
 <script>
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
 	data() {
 		return {
@@ -93,6 +59,13 @@ export default {
 	},
 
 	methods: {},
+	computed: {
+		...mapState({
+			cardsContent: state => state.card.cardsContent,
+		}),
+	},
+
+
 }
 
 </script>
@@ -103,31 +76,161 @@ export default {
 	flex-direction: column;
 	align-items: center;
 	background-color: black;
+	width: 100%;
+}
+
+.card,
+.listPayment,
+.cardHeader {
+	width: 350px;
+}
+
+.cardHeader {
+	height: 46px;
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-auto-rows: 46px;
+	grid-column-gap: 0;
+	/* url('~@/assets/img/cards/cardCredit.jpg'); */
+	background-image: url('~@/assets/img/cards/cardCredit.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-color: rgba(0, 0, 0, 0.5);
+
+	font-size: 18px;
+	font-weight: 400;
+	color: white;
+
+	border-radius: 0;
 }
 
 .card {
-	display: flex;
-	flex-direction: column;
-	width: 350px;
 	height: 406px;
-	justify-content: space-evenly;
-	align-items: flex-start;
-	background-size: contain;
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-template-rows: 46px 78px 30px 48px 38px 29px 34px 37px 65px;
+	grid-column-gap: 0;
+
+	background-image: url('~@/assets/img/cards/cardCredit.jpg');
+	/* cover/contain */
+	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-color: rgba(0, 0, 0, 0.5);
-	background-image: url('~@/assets/img/cards/credit/cardCredit.jpg');
+
+	font-size: 18px;
+	font-weight: 400;
+	color: white;
+
+	border-radius: 0;
 }
 
-/* cover / contain */
-.cardHeader {
-	width: 350px;
-	height: 80px;
-	background-size: contain;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-color: rgba(0, 0, 0, 0.5);
-	background-image: url('~@/assets/img/cards/credit/00_header.png');
+
+.item {
+	/*border: 1px solid black;*/
+	text-align: right;
+	padding-right: 20px;
+}
+
+.item_2 {
+	grid-column-start: 2;
+	grid-column-end: 5;
+}
+
+.item_5,
+.item_6,
+.item_17 {
+	grid-column-start: 1;
+	grid-column-end: 7;
+}
+
+.item_7,
+.item_9 {
+	grid-column-start: 1;
+	grid-column-end: 3;
+}
+
+.item_8,
+.item_10 {
+	grid-column-start: 3;
+	grid-column-end: 7;
+}
+
+.item_11,
+.item_13,
+.item_15 {
+	grid-column-start: 1;
+	grid-column-end: 4;
+}
+
+.item_12,
+.item_14,
+.item_16 {
+	grid-column-start: 4;
+	grid-column-end: 7;
+}
+
+
+.item_5 {
+	font-size: 28px;
+	font-weight: 600;
+	text-align: left;
+	padding-left: 19px;
+}
+
+.item_6 {
+	font-size: 22px;
+	font-weight: 600;
+	text-align: left;
+	padding-left: 19px;
+}
+
+.item_7 {
+	font-size: 22px;
+	font-weight: 500;
+	text-align: left;
+	padding-left: 20px;
+	padding-top: 5px;
+}
+
+.item_8 {
+	font-size: 20px;
+	font-weight: 400;
+	text-align: left;
+	padding-left: 5px;
+	padding-top: 8px;
+}
+
+.item_10 {
+	font-size: 22px;
+	font-weight: 700;
+	text-align: right;
+	padding-top: 1px;
+}
+
+.item_12 {
+	font-size: 18px;
+	font-weight: 400;
+	text-align: right;
+	padding-top: 2px;
+}
+
+.item_14 {
+	font-size: 18px;
+	font-weight: 400;
+	text-align: right;
+	padding-top: 6px;
+}
+
+.item_16 {
+	font-size: 18px;
+	font-weight: 400;
+	text-align: right;
+	padding-top: 5px;
+}
+
+.fa-chevron-right {
+	font-size: 12px;
 }
 
 .listPayment {
@@ -135,6 +238,7 @@ export default {
 	color: rgb(153, 153, 153);
 	height: 500px;
 }
+
 
 
 .spab-item {
