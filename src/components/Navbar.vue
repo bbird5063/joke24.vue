@@ -1,30 +1,32 @@
 <template>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Navbar</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-				aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<a class="navbar-brand" href="#"><img src="~@/assets/img/icons/logo_privat24_round.png"
+					alt="logo_privat24_round.png" width="30" height="30" class="d-inline-block align-text-top"></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarNavDropdown">
-				<ul class="navbar-nav">
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a @click.prevent="$router.push('/CardHome')" class="nav-link active" aria-current="page" href="#">View</a>
+						<a @click.prevent="$router.push('/CardHome')" class="nav-link active" aria-current="page" href="#">Вид</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Edit</a>
-					</li>
-					<!--<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
 							aria-expanded="false">
-							Карты
+							Редактирование
 						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<li><a class="dropdown-item" href="#">Action</a></li>
-							<li><a class="dropdown-item" href="#">Another action</a></li>
-							<li><a class="dropdown-item" href="#">Something else here</a></li>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<li><a class="dropdown-item" href="#">Кредитная</a></li>
+							<li><a class="dropdown-item" href="#">Платежная</a></li>
+							<li><a class="dropdown-item" href="#">є-Підтримка</a></li>
+							<li>
+								<hr class="dropdown-divider">
+							</li>
+							<li><a class="dropdown-item" href="#">Общие</a></li>
 						</ul>
-					</li>-->
+					</li>
 				</ul>
 			</div>
 		</div>

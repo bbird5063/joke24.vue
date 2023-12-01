@@ -5,7 +5,8 @@ export const cardModule = {
 		isLocalhost: true,
 		cardsContent: null,
 		rate: null,
-		currentCard: 'credidCard',
+		idCurrentCard: 1,
+		isMenuVisible: false,
 	}),
 
 	mutations: {
@@ -15,8 +16,10 @@ export const cardModule = {
 				location.hostname.includes('localhost')
 			) {
 				state.isLocalhost = true;
+				state.isMenuVisible = true; // true
 			} else {
 				state.isLocalhost = false;
+				state.isMenuVisible = true;
 			}
 		},
 		setCardsContent(state, cardsContent) {
@@ -25,8 +28,11 @@ export const cardModule = {
 		setRate(state, rate) {
 			state.rate = rate;
 		},
-		setCurrentCard(state, currentCard) {
-			state.currentCard = currentCard;
+		setIdCurrentCard(state, idCurrentCard) {
+			state.idCurrentCard = idCurrentCard;
+		},
+		setIsMenuVisible(state, isMenuVisible) {
+			state.isMenuVisible = isMenuVisible;
 		},
 	},
 

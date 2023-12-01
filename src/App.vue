@@ -1,5 +1,5 @@
 <template>
-	<navbar v-if="!$store.state.card.isLocalhost"></navbar>
+	<navbar v-if="$store.state.card.isMenuVisible"></navbar>
 	<div class="app">
 		<router-view></router-view>
 	</div>

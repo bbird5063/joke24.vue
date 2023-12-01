@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<mob-credit v-if="$store.state.card.currentCard == 'credidCard'"></mob-credit>
-		<mob-payment v-if="$store.state.card.currentCard == 'paymentCard'"></mob-payment>
-		<mob-help v-if="$store.state.card.currentCard == 'helpCard'"></mob-help>
+		<mob-credit v-if="$store.state.card.idCurrentCard == 1"></mob-credit>
+		<mob-payment v-if="$store.state.card.idCurrentCard == 2"></mob-payment>
+		<mob-help v-if="$store.state.card.idCurrentCard == 3"></mob-help>
 		<mob-list></mob-list>
 	</div>
 </template>
