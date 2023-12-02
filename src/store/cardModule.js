@@ -59,7 +59,7 @@ export const cardModule = {
 				alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
 			} finally {
 			}
-		},
+		},//
 	},
 
 	namespaced: true,

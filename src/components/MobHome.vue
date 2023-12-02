@@ -86,7 +86,9 @@ export default {
 		openCurrentCard(idCard) {
 			this.setIdCurrentCard(idCard);
 			this.$router.push('/CardList');
-		}
+		},
+
+
 	},
 
 	mounted() {

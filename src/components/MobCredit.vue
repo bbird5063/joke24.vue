@@ -33,37 +33,67 @@
 				<i class="fa fa-window-minimize"></i>
 			</div>
 			<div>
-				Середа, 01 листопада 2023 -130.42 UAH
-				00:00
-				Списання відсотків за використання кредитного ліміту. За ставкою 3.4 відсотка нараховано 130.42 UAH
-				-130.42
-				-3 055.68
-				Неділя, 15 жовтня 2023 -37.37 UAH
-				11:47
-				+380686803471
-				-37.37
-				2.00
-				-2 925.26
+				<ul>
+					<li v-for="pmtDay in paymentDays" :key="pmtDay.id_date_payment">
+						{{ pmtDay.date_string }}
+						<ul>
+							<li v-for="row in pmtDay.payments">
+								{{ row.purpPayment }}
+								{{ row.time_payment }}
+								{{ row.sumPayment }}
+							</li>
+						</ul>
+					</li>
+				</ul>
+
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+import axios from 'axios';
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
 export default {
 	data() {
 		return {
 			cardVisible: true,
+			paymentDays: null,
 		}
 	},
 
-	methods: {},
+	methods: {
+		async loadPayments() {
+			try {
+				let url;
+				if (this.$store.state.card.isLocalhost) {
+					url = '/json_database/payment_1.json';
+				} else {
+					url = '/php_modules/controller_payment.php';
+				}
+				const response = await axios.get(url, { params: { id_card: 1 } });
+				console.log('----response.data----');
+				console.log(response.data);
+				this.paymentDays = response.data.paymentDays;
+			} catch (e) {
+				alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
+			} finally {
+				console.log('finally!');
+			}
+		},
+
+	},
+
 	computed: {
 		...mapState({
 			cardsContent: state => state.card.cardsContent,
 		}),
 	},
+
+	mounted() {
+		this.loadPayments();
+	},
+
 
 
 }
