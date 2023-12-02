@@ -34,13 +34,16 @@
 			</div>
 			<div>
 				<ul>
-					<li v-for="pmtDay in paymentDays" :key="pmtDay.id_date_payment">
-						{{ pmtDay.date_string }}
+					<li v-for="pmtDay in  paymentDays " :key="pmtDay.id_date_payment">
+						{{ pmtDay.date_string + ' ' + pmtDay.totalSum.toFixed(2) }}
 						<ul>
-							<li v-for="row in pmtDay.payments">
+							<li v-for="row in  pmtDay.payments " :key="row.id_payment">
+								<!--<img :src="'~@/assets/img/icons/' + row.id_type_payment + '.png'" alt="">-->
+								<img :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
+								{{ row.name_type_payment }}
 								{{ row.purpPayment }}
+								{{ row.sumPayment.toFixed(2) }}
 								{{ row.time_payment }}
-								{{ row.sumPayment }}
 							</li>
 						</ul>
 					</li>
@@ -67,7 +70,7 @@ export default {
 			try {
 				let url;
 				if (this.$store.state.card.isLocalhost) {
-					url = '/json_database/payment_1.json';
+					url = '/json_database/paymentDays_' + this.$store.state.card.idCurrentCard + '.json';
 				} else {
 					url = '/php_modules/controller_payment.php';
 				}
@@ -78,7 +81,6 @@ export default {
 			} catch (e) {
 				alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
 			} finally {
-				console.log('finally!');
 			}
 		},
 
@@ -101,6 +103,11 @@ export default {
 </script>
 
 <style scoped>
+img {
+	width: 30px;
+	height: 30px;
+}
+
 .root {
 	display: flex;
 	flex-direction: column;
@@ -266,7 +273,7 @@ export default {
 .listPayment {
 	background-color: black;
 	color: rgb(153, 153, 153);
-	height: 500px;
+	/*height: 500px;*/
 }
 
 
