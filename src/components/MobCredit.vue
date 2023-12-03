@@ -30,7 +30,12 @@
 		</div>
 		<div class="listPayment">
 			<div @click="cardVisible = !cardVisible" style="text-align:center;">
-				<i class="fa fa-window-minimize"></i>
+				<div v-if="isLoading">
+					<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+					<span class="sr-only">Загрузка...</span>
+				</div>
+				<i v-else class="fa fa-window-minimize"></i>
+				<!-- this.isLoading -->
 			</div>
 			<div>
 				<ul>
@@ -39,7 +44,7 @@
 						<ul>
 							<li v-for="row in  pmtDay.payments " :key="row.id_payment">
 								<!--<img :src="'~@/assets/img/icons/' + row.id_type_payment + '.png'" alt="">-->
-								<img :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
+								<img class="icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
 								{{ row.name_type_payment }}
 								{{ row.purpPayment }}
 								{{ row.sumPayment.toFixed(2) }}
@@ -62,12 +67,14 @@ export default {
 		return {
 			cardVisible: true,
 			paymentDays: null,
+			isLoading: false,
 		}
 	},
 
 	methods: {
 		async loadPayments() {
 			try {
+				this.isLoading = true;
 				let url;
 				if (this.$store.state.card.isLocalhost) {
 					url = '/json_database/paymentDays_' + this.$store.state.card.idCurrentCard + '.json';
@@ -81,6 +88,7 @@ export default {
 			} catch (e) {
 				alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
 			} finally {
+				this.isLoading = false;
 			}
 		},
 
@@ -103,7 +111,7 @@ export default {
 </script>
 
 <style scoped>
-img {
+img.icon {
 	width: 30px;
 	height: 30px;
 }
@@ -114,6 +122,7 @@ img {
 	align-items: center;
 	background-color: black;
 	width: 100%;
+	height: 100%;
 }
 
 .card,

@@ -27,12 +27,12 @@
 		for ($j = 0; $j < $count_rows; ++$j) {
 			$result->data_seek($j);
 			$arrFields = $result->fetch_array(MYSQLI_ASSOC);
-			if ($arrFields['id_date_payment'] !== $currIdDatePayment) {
-				if (isset($row_payment)) {
+			if ($arrFields['id_date_payment'] !== $currIdDatePayment) { // новый день
+				if (isset($row_payment)) { // не первая запись
 					$row_payment['totalSum'] = $totalSum;
 					$data['paymentDays'][] = $row_payment;
-					unset($row_payment);
 					$totalSum = 0;
+					unset($row_payment);
 				}
 				$currIdDatePayment = $arrFields['id_date_payment'];
 				$row_payment = array(
@@ -40,7 +40,7 @@
 				'date_payment' 		=> $arrFields['date_payment'],
 				'date_string' 		=> $arrFields['date_string'],
 				'date_string' 		=> $arrFields['date_string'],
-				'totalSum' 				=> 0
+				'totalSum' 				=> 0,
 				);
 			}
 			$row_payment['payments'][] = array(
@@ -53,6 +53,11 @@
 			'sumPayment' 				=> $arrFields['sumPayment'],
 			);
 			$totalSum += $arrFields['sumPayment'];
+			
+			if($j == $count_rows - 1){ // последняя запись(следующей интерации не будет!)
+				$row_payment['totalSum'] = $totalSum;
+				$data['paymentDays'][] = $row_payment;
+			}
 			unset($arrFields);
 		}
 	}
