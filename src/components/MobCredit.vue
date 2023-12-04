@@ -1,59 +1,56 @@
 <template>
-	<div v-if="cardsContent" class="root">
-		<div v-show="!cardVisible" class="cardHeader">
-			<div @click="$router.push('/CardHome')" class="item item_1"></div>
-			<div class="item item_2"></div>
-			<div class="item item_3"></div>
-			<div class="item item_4"></div>
-		</div>
-		<div v-show="cardVisible" class="card">
-			<div @click="$router.push('/CardHome')" class="item item_1"></div>
-			<div class="item item_2"></div>
-			<div class="item item_3"></div>
-			<div class="item item_4"></div>
-			<div class="item item_5"></div>
-			<div class="item item_6">{{ cardsContent.credidCard.shortNumberCard }}</div>
-			<div class="item item_7">{{ cardsContent.credidCard.periodCard }}</div>
-			<div class="item item_8">CVV2</div>
-			<div class="item item_9"></div>
-			<div class="item item_10">{{ cardsContent.credidCard.sumCard.toFixed(2) + ' UAH' }}</div>
-			<div class="item item_11"></div>
-			<div class="item item_12">{{ cardsContent.credidCard.limitCard.toFixed(2) + ' UAH&nbsp;&nbsp;' }}<i
-					class="fa fa-chevron-right"></i></div>
-			<div class="item item_13"></div>
-			<div class="item item_14">{{ cardsContent.credidCard.debtCard.toFixed(2) + ' UAH&nbsp;&nbsp;' }}<i
-					class="fa fa-chevron-right"></i></div>
-			<div class="item item_15"></div>
-			<div class="item item_16">{{ cardsContent.credidCard.minSumCard.toFixed(2) + ' UAH&nbsp;&nbsp;' }}<i
-					class="fa fa-info"></i></div>
-			<div class="item item_17"></div>
-		</div>
-		<div class="listPayment">
-			<div @click="cardVisible = !cardVisible" style="text-align:center;">
-				<div v-if="isLoading">
-					<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-					<span class="sr-only">Загрузка...</span>
-				</div>
-				<i v-else class="fa fa-window-minimize"></i>
-				<!-- this.isLoading -->
+	<div>
+		<div v-if="cardsContent" class="root">
+			<div v-show="!cardVisible" class="cardHeader">
+				<div @click="$router.push('/CardHome')" class="item item_1"></div>
+				<div class="item item_2"></div>
+				<div class="item item_3"></div>
+				<div class="item item_4"></div>
 			</div>
-			<div>
-				<ul>
-					<li v-for="pmtDay in  paymentDays " :key="pmtDay.id_date_payment">
-						{{ pmtDay.date_string + ' ' + pmtDay.totalSum.toFixed(2) }}
-						<ul>
-							<li v-for="row in  pmtDay.payments " :key="row.id_payment">
-								<!--<img :src="'~@/assets/img/icons/' + row.id_type_payment + '.png'" alt="">-->
-								<img class="icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
-								{{ row.name_type_payment }}
-								{{ row.purpPayment }}
-								{{ row.sumPayment.toFixed(2) }}
-								{{ row.time_payment }}
-							</li>
-						</ul>
-					</li>
-				</ul>
+			<div v-show="cardVisible" class="card">
+				<div @click="$router.push('/CardHome')" class="item item_1"></div>
+				<div class="item item_2"></div>
+				<div class="item item_3"></div>
+				<div class="item item_4"></div>
+				<div class="item item_5"></div>
+				<div class="item item_6">{{ cardsContent.credidCard.shortNumberCard }}</div>
+				<div class="item item_7">{{ cardsContent.credidCard.periodCard }}</div>
+				<div class="item item_8">CVV2</div>
+				<div class="item item_9"></div>
+				<div class="item item_10">{{ numStrFormat(cardsContent.credidCard.sumCard) + ' UAH&nbsp;&nbsp;' }}</div>
+				<div class="item item_11"></div>
+				<div class="item item_12">{{ numStrFormat(cardsContent.credidCard.limitCard) + ' UAH&nbsp;&nbsp;' }}<i
+						class="fa fa-chevron-right"></i></div>
+				<div class="item item_13"></div>
+				<div class="item item_14">{{ numStrFormat(cardsContent.credidCard.debtCard) + ' UAH&nbsp;&nbsp;' }}<i
+						class="fa fa-chevron-right"></i></div>
+				<div class="item item_15"></div>
+				<div class="item item_16">{{
+					numStrFormat(cardsContent.credidCard.minSumCard) + ' UAH&nbsp;&nbsp;' }}<i class="fa fa-info"></i></div>
+				<div class="item item_17"></div>
+			</div>
+			<div class="listPayment">
+				<div @click="cardVisible = !cardVisible" style="text-align:center;">
+					<div v-if="isLoading">
+						<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+						<span class="sr-only">Загрузка...</span>
+					</div>
+					<i v-else class="fa fa-window-minimize"></i>
+				</div>
+			</div>
 
+			<div v-for="payDay in  paymentDays" :key="payDay.id_date_payment" class="payment_days">
+				<div class="pay day">{{ payDay.date_string }}</div>
+				<div class="pay total">{{ numStrFormat(payDay.totalSum) + ' UAH&nbsp;&nbsp;' }}</div>
+				<div v-for="row in  payDay.payments" :key="row.id_payment" class="pay payments">
+					<div class="pay icon"><img class="img_icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
+					</div>
+
+					<div class="pay type">{{ row.name_type_payment }}</div>
+					<div class="pay sum">{{ numStrFormat(row.sumPayment) + ' UAH&nbsp;&nbsp;' }}</div>
+					<div class="pay note">{{ row.purpPayment }}</div>
+					<div class="pay time">{{ row.time_payment }}</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -62,7 +59,10 @@
 <script>
 import axios from 'axios';
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
+import toggleMixin from '@/mixins/toggleMixin';
+
 export default {
+	mixins: [toggleMixin],
 	data() {
 		return {
 			cardVisible: true,
@@ -91,7 +91,6 @@ export default {
 				this.isLoading = false;
 			}
 		},
-
 	},
 
 	computed: {
@@ -103,11 +102,7 @@ export default {
 	mounted() {
 		this.loadPayments();
 	},
-
-
-
 }
-
 </script>
 
 <style scoped>
@@ -120,15 +115,16 @@ img.icon {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background-color: black;
+	background-color: #212121;
 	width: 100%;
 	height: 100%;
 }
 
 .card,
 .listPayment,
-.cardHeader {
-	width: 350px;
+.cardHeader,
+.payment_days {
+	width: 360px;
 }
 
 .cardHeader {
@@ -137,11 +133,10 @@ img.icon {
 	grid-template-columns: repeat(6, 1fr);
 	grid-auto-rows: 46px;
 	grid-column-gap: 0;
-	/* url('~@/assets/img/cards/cardCredit.jpg'); */
 	background-image: url('~@/assets/img/cards/cardCredit.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: #212121;
 
 	font-size: 18px;
 	font-weight: 400;
@@ -162,7 +157,7 @@ img.icon {
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: #212121;
 
 	font-size: 18px;
 	font-weight: 400;
@@ -215,7 +210,6 @@ img.icon {
 	grid-column-start: 4;
 	grid-column-end: 7;
 }
-
 
 .item_5 {
 	font-size: 28px;
@@ -280,9 +274,80 @@ img.icon {
 }
 
 .listPayment {
-	background-color: black;
-	color: rgb(153, 153, 153);
-	/*height: 500px;*/
+	background-color: #212121;
+	color: #999999;
+}
+
+
+.payment_days {
+	display: grid;
+	/*justify-content: center;*/
+	grid-template-areas:
+		'day total'
+		'payments payments';
+
+	grid-gap: 5px;
+	grid-template-columns: 5fr 3fr;
+	grid-template-rows: 40px 1fr;
+
+	color: #999999;
+}
+
+
+.payments {
+	grid-area: payments;
+
+	display: grid;
+	grid-template-areas:
+		'icon type type sum'
+		'icon note note note'
+		'icon time time time';
+	grid-gap: 2px;
+	grid-template-columns: 40px 2fr 2fr 3fr;
+	grid-template-rows: 40px 1fr 40px;
+}
+
+.pay {
+	padding: 0px;
+	/*border: 1px solid grey;*/
+}
+
+.day {
+	grid-area: day;
+}
+
+.total {
+	grid-area: total;
+	text-align: right;
+}
+
+.icon {
+	grid-area: icon;
+	align-self: start;
+}
+
+.type {
+	grid-area: type;
+}
+
+.sum {
+	grid-area: sum;
+	text-align: right;
+	color: #E2E2E2;
+}
+
+.note {
+	grid-area: note;
+	color: #E2E2E2;
+}
+
+.time {
+	grid-area: time;
+}
+
+img.img_icon {
+	width: 30px;
+	height: 30px;
 }
 
 

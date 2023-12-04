@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 01 2023 г., 22:23
+-- Время создания: Дек 03 2023 г., 05:42
 -- Версия сервера: 10.4.22-MariaDB
 -- Версия PHP: 8.1.2
 
@@ -74,31 +74,30 @@ INSERT INTO `credit` (`id_credit`, `NameCredit`, `UserIndex`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `date_payment`
+-- Структура таблицы `day_payment`
 --
 
-CREATE TABLE `date_payment` (
+CREATE TABLE `day_payment` (
   `id_date_payment` int(11) NOT NULL,
-  `id_card` int(11) DEFAULT NULL,
-  `currentDate` date NOT NULL DEFAULT current_timestamp(),
-  `strFullDate` varchar(100) NOT NULL
+  `date_payment` date NOT NULL DEFAULT current_timestamp(),
+  `date_string` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `date_payment`
+-- Дамп данных таблицы `day_payment`
 --
 
-INSERT INTO `date_payment` (`id_date_payment`, `id_card`, `currentDate`, `strFullDate`) VALUES
-(11, 1, '2023-09-01', 'П\'ятниця, 01 вересня 2023'),
-(12, 1, '2023-09-08', 'П\'ятниця, 08 вересня 2023'),
-(13, 1, '2023-09-12', 'Вівторок, 12 вересня 2023'),
-(14, 1, '2023-09-13', 'Середа, 13 вересня 2023'),
-(15, 1, '2023-09-14', 'Четвер, 14 вересня 2023'),
-(16, 1, '2023-09-20', 'Середа, 20 вересня 2023'),
-(17, 1, '2023-10-01', 'Неділя, 01 жовтня 2023'),
-(18, 1, '2023-10-06', 'П\'ятниця, 06 жовтня 2023'),
-(19, 1, '2023-10-12', 'Четвер, 12 жовтня 2023'),
-(20, 1, '2023-10-13', 'П\'ятниця, 13 жовтня 2023');
+INSERT INTO `day_payment` (`id_date_payment`, `date_payment`, `date_string`) VALUES
+(11, '2023-09-01', 'П\'ятниця, 01 вересня 2023'),
+(12, '2023-09-08', 'П\'ятниця, 08 вересня 2023'),
+(13, '2023-09-12', 'Вівторок, 12 вересня 2023'),
+(14, '2023-09-13', 'Середа, 13 вересня 2023'),
+(15, '2023-09-14', 'Четвер, 14 вересня 2023'),
+(16, '2023-09-20', 'Середа, 20 вересня 2023'),
+(17, '2023-10-01', 'Неділя, 01 жовтня 2023'),
+(18, '2023-10-06', 'П\'ятниця, 06 жовтня 2023'),
+(19, '2023-10-12', 'Четвер, 12 жовтня 2023'),
+(20, '2023-10-13', 'П\'ятниця, 13 жовтня 2023');
 
 -- --------------------------------------------------------
 
@@ -108,10 +107,11 @@ INSERT INTO `date_payment` (`id_date_payment`, `id_card`, `currentDate`, `strFul
 
 CREATE TABLE `payment` (
   `id_payment` int(11) NOT NULL,
+  `id_date_payment` int(11) NOT NULL,
+  `id_card` int(11) NOT NULL DEFAULT 1,
   `id_credit` int(11) DEFAULT NULL,
   `id_type_payment` int(11) DEFAULT NULL,
-  `id_date_payment` int(11) NOT NULL,
-  `timePayment` time NOT NULL,
+  `time_payment` time NOT NULL,
   `purpPayment` text NOT NULL,
   `sumPayment` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -120,18 +120,18 @@ CREATE TABLE `payment` (
 -- Дамп данных таблицы `payment`
 --
 
-INSERT INTO `payment` (`id_payment`, `id_credit`, `id_type_payment`, `id_date_payment`, `timePayment`, `purpPayment`, `sumPayment`) VALUES
-(1, 0, 0, 11, '00:00:00', 'Списання відсотків за використання кредитного ліміту. За ставкою 3.4 відсотка нараховано 259.14 UAH	\n', -259.14),
-(2, 1, 0, 12, '13:29:00', 'Зі своєї картки 41**08', 350.96),
-(3, 1, 0, 12, '13:43:00', 'Зі своєї картки 41**08', 3),
-(4, 0, 0, 13, '03:42:00', 'Комісія за обслуговування (членський внесок) за 08.2023', -20),
-(5, 0, 0, 14, '04:38:00', 'Oplata komunal\'nykh posluh', -1),
-(6, 0, 0, 15, '12:29:00', 'TOB «ГК «Нафтогаз України» (Київ)', -40.39),
-(7, 0, 0, 16, '12:16:00', 'Поповнення мобільного +380686803471	\r\n', -57.57),
-(8, 0, 0, 17, '00:00:00', 'Списання відсотків за використання кредитного ліміту. За ставкою 3.4 відсотка нараховано 179.41 UAH', -179.41),
-(9, 1, 0, 18, '02:43:00', 'Зі своєї картки 41**08\r\n', 243.97),
-(10, 0, 0, 19, '04:07:00', 'Комісія за обслуговування (членський внесок) за 09.2023', -20),
-(11, 1, 0, 20, '20:36:00', 'Зі своєї картки 41**08', 1);
+INSERT INTO `payment` (`id_payment`, `id_date_payment`, `id_card`, `id_credit`, `id_type_payment`, `time_payment`, `purpPayment`, `sumPayment`) VALUES
+(1, 11, 1, 0, 3, '00:00:00', 'Списання відсотків за використання кредитного ліміту. За ставкою 3.4 відсотка нараховано 259.14 UAH	\n', -259.14),
+(2, 12, 1, 1, 2, '13:29:00', 'Зі своєї картки 41**08', 350.96),
+(3, 12, 1, 1, 2, '13:43:00', 'Зі своєї картки 41**08', 3210),
+(4, 13, 1, 0, 1, '03:42:00', 'Комісія за обслуговування (членський внесок) за 08.2023', -20),
+(5, 14, 1, 0, 5, '04:38:00', 'Oplata komunal\'nykh posluh', -1044.1),
+(6, 15, 1, 0, 5, '12:29:00', 'TOB «ГК «Нафтогаз України» (Київ)', -40.39),
+(7, 16, 1, 0, 4, '12:16:00', 'Поповнення мобільного +380686803471	\r\n', -57.57),
+(8, 17, 1, 0, 3, '00:00:00', 'Списання відсотків за використання кредитного ліміту. За ставкою 3.4 відсотка нараховано 179.41 UAH', -179.41),
+(9, 18, 1, 1, 2, '02:43:00', 'Зі своєї картки 41**08\r\n', 243.97),
+(10, 19, 1, 1, 1, '04:07:00', 'Комісія за обслуговування (членський внесок) за 09.2023', -20),
+(11, 20, 1, 1, 2, '20:36:00', 'Зі своєї картки 41**08', 1947);
 
 -- --------------------------------------------------------
 
@@ -170,12 +170,14 @@ CREATE TABLE `type_payment` (
 
 INSERT INTO `type_payment` (`id_type_payment`, `name_type_payment`, `ref_icon`) VALUES
 (1, 'Інше', ''),
-(2, 'Перекази', ''),
+(2, 'Зарахування', ''),
 (3, 'Кредити', ''),
 (4, 'Пополнення мобільного', ''),
 (5, 'Платежі', ''),
 (6, 'Ресторани та бари', ''),
-(7, 'Розваги', '');
+(7, 'Розваги', ''),
+(8, 'Перекази', ''),
+(9, 'Перекази', '');
 
 --
 -- Индексы сохранённых таблиц
@@ -195,12 +197,13 @@ ALTER TABLE `credit`
   ADD KEY `UserIndex` (`UserIndex`);
 
 --
--- Индексы таблицы `date_payment`
+-- Индексы таблицы `day_payment`
 --
-ALTER TABLE `date_payment`
+ALTER TABLE `day_payment`
   ADD PRIMARY KEY (`id_date_payment`),
-  ADD KEY `id_card` (`id_card`),
-  ADD KEY `currentDate` (`currentDate`);
+  ADD UNIQUE KEY `date_payment` (`date_payment`),
+  ADD UNIQUE KEY `date_string` (`date_string`),
+  ADD KEY `currentDate` (`date_payment`);
 
 --
 -- Индексы таблицы `payment`
@@ -209,7 +212,9 @@ ALTER TABLE `payment`
   ADD PRIMARY KEY (`id_payment`),
   ADD KEY `id_credit` (`id_credit`),
   ADD KEY `id_credit_2` (`id_credit`),
-  ADD KEY `id_date_payment` (`id_date_payment`);
+  ADD KEY `id_date_payment` (`id_date_payment`),
+  ADD KEY `timePayment` (`time_payment`),
+  ADD KEY `id_date_payment_2` (`id_date_payment`);
 
 --
 -- Индексы таблицы `rate`
@@ -234,9 +239,9 @@ ALTER TABLE `card`
   MODIFY `id_card` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT для таблицы `date_payment`
+-- AUTO_INCREMENT для таблицы `day_payment`
 --
-ALTER TABLE `date_payment`
+ALTER TABLE `day_payment`
   MODIFY `id_date_payment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
@@ -255,7 +260,7 @@ ALTER TABLE `rate`
 -- AUTO_INCREMENT для таблицы `type_payment`
 --
 ALTER TABLE `type_payment`
-  MODIFY `id_type_payment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_type_payment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

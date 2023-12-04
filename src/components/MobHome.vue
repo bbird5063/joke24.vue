@@ -16,7 +16,7 @@
 							<div class="item item_2">{{ cardsContent.credidCard.shortNumberCard }}</div>
 							<div class="item item_3">{{ cardsContent.credidCard.periodCard }}</div>
 							<div class="item item_4">
-								<div>{{ cardsContent.credidCard.sumCard.toFixed() + ' UAH' }}</div>
+								<div>{{ numStrFormat(cardsContent.credidCard.sumCard)  + ' UAH' }}</div>
 								<img src="~@/assets/img/cards/icon_5.png" alt="icon_5.png" width="57" height="38">
 							</div>
 						</div>
@@ -29,7 +29,7 @@
 							<div class="item item_2">{{ cardsContent.paymentCard.shortNumberCard }}</div>
 							<div class="item item_3">{{ cardsContent.paymentCard.periodCard }}</div>
 							<div class="item item_4">
-								<div>{{ cardsContent.paymentCard.sumCard.toFixed() + ' UAH' }}</div>
+								<div>{{ numStrFormat(cardsContent.paymentCard.sumCard)  + ' UAH' }}</div>
 								<img style="margin-top:5px;" src="~@/assets/img/cards/icon_6.png" alt="icon_6.png" width="68" height="26">
 							</div>
 						</div>
@@ -42,9 +42,9 @@
 							<div class="item item_2">{{ cardsContent.helpCard.shortNumberCard }}</div>
 							<div class="item item_3">{{ cardsContent.helpCard.periodCard }}</div>
 							<div class="item item_4">
-								<div>{{ cardsContent.helpCard.sumCard.toFixed() + ' UAH' }}</div>
-								<img style="margin-top:5px; padding-left: 16px;" src="~@/assets/img/cards/icon_6.png" alt="icon_6.png"
-									width="68" height="26">
+								<div>{{ numStrFormat(cardsContent.helpCard.sumCard)  + ' UAH' }}</div>
+								<img style="margin-top:5px;" src="~@/assets/img/cards/icon_6.png" alt="icon_6.png"
+									width="68" height="26"><!--padding-left: 16px;-->
 							</div>
 						</div>
 					</div>
@@ -67,7 +67,9 @@
 <script>
 import axios from 'axios';
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+import toggleMixin from '@/mixins/toggleMixin';
 export default {
+	mixins: [toggleMixin],
 	data() {
 		return {
 		}
@@ -75,7 +77,6 @@ export default {
 
 	methods: {
 		...mapMutations({
-			//setCurrentCard: 'card/setCurrentCard',
 			setIdCurrentCard: 'card/setIdCurrentCard',
 
 		}),
@@ -87,10 +88,8 @@ export default {
 			this.setIdCurrentCard(idCard);
 			this.$router.push('/CardList');
 		},
-
-
 	},
-
+	
 	mounted() {
 		//this.updateCards();
 	},
