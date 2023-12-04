@@ -110,7 +110,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background-color: black;
+	background-color: #212121;
 }
 
 .card {
@@ -183,16 +183,18 @@ export default {
 #scr_2 {
 	width: 100%;
 	height: 100%;
+	background-color: #212121;
 
 	/*Встраиваем с сохр.пропорций:cover-обрезает, contain-не обрезает*/
 	background-size: contain;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-color: rgba(0, 0, 0, 0.5);
+	/*background-color: rgba(0, 0, 0, 0.5);*/
 }
 
 .bottom {
-	background-color: black;
+	/*background-color: black;*/
+	background-color: #212121;
 	width: 330px;
 	height: 80px;
 }

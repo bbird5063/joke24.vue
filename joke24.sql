@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 03 2023 г., 05:42
+-- Время создания: Дек 04 2023 г., 15:58
 -- Версия сервера: 10.4.22-MariaDB
 -- Версия PHP: 8.1.2
 
@@ -161,23 +161,23 @@ INSERT INTO `rate` (`id_rate`, `buyRate`, `sellRate`) VALUES
 CREATE TABLE `type_payment` (
   `id_type_payment` int(11) NOT NULL,
   `name_type_payment` varchar(40) NOT NULL,
-  `ref_icon` varchar(100) NOT NULL
+  `order_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `type_payment`
 --
 
-INSERT INTO `type_payment` (`id_type_payment`, `name_type_payment`, `ref_icon`) VALUES
-(1, 'Інше', ''),
-(2, 'Зарахування', ''),
-(3, 'Кредити', ''),
-(4, 'Пополнення мобільного', ''),
-(5, 'Платежі', ''),
-(6, 'Ресторани та бари', ''),
-(7, 'Розваги', ''),
-(8, 'Перекази', ''),
-(9, 'Перекази', '');
+INSERT INTO `type_payment` (`id_type_payment`, `name_type_payment`, `order_by`) VALUES
+(1, 'Інше', 0),
+(2, 'Зарахування', 1),
+(3, 'Кредити', -1),
+(4, 'Пополнення мобільного', -4),
+(5, 'Платежі', -2),
+(6, 'Ресторани та бари', -6),
+(7, 'Розваги', -5),
+(8, 'Перекази', 2),
+(9, 'Перекази', -3);
 
 --
 -- Индексы сохранённых таблиц
@@ -226,7 +226,8 @@ ALTER TABLE `rate`
 -- Индексы таблицы `type_payment`
 --
 ALTER TABLE `type_payment`
-  ADD PRIMARY KEY (`id_type_payment`);
+  ADD PRIMARY KEY (`id_type_payment`),
+  ADD KEY `order_by` (`order_by`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц

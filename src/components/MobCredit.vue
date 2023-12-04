@@ -42,14 +42,16 @@
 			<div v-for="payDay in  paymentDays" :key="payDay.id_date_payment" class="payment_days">
 				<div class="pay day">{{ payDay.date_string }}</div>
 				<div class="pay total">{{ numStrFormat(payDay.totalSum) + ' UAH&nbsp;&nbsp;' }}</div>
-				<div v-for="row in  payDay.payments" :key="row.id_payment" class="pay payments">
-					<div class="pay icon"><img class="img_icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
-					</div>
+				<div class="div_payments">
+					<div v-for="row in  payDay.payments" :key="row.id_payment" class="pay payments">
+						<div class="pay icon"><img class="img_icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
+						</div>
 
-					<div class="pay type">{{ row.name_type_payment }}</div>
-					<div class="pay sum">{{ numStrFormat(row.sumPayment) + ' UAH&nbsp;&nbsp;' }}</div>
-					<div class="pay note">{{ row.purpPayment }}</div>
-					<div class="pay time">{{ row.time_payment }}</div>
+						<div class="pay type">{{ row.name_type_payment }}</div>
+						<div class="pay sum" :class="{ 'sum_green': row.sumPayment > 0 }">{{ numStrFormat(row.sumPayment) + ' UAH &nbsp;&nbsp;' }}</div>
+						<div class="pay note">{{ row.purpPayment }}</div>
+						<div class="pay time">{{ row.time_payment.substring(0, 5) }}</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -280,11 +282,12 @@ img.icon {
 
 
 .payment_days {
+	padding: 10px;
 	display: grid;
 	/*justify-content: center;*/
 	grid-template-areas:
 		'day total'
-		'payments payments';
+		'div_payments div_payments';
 
 	grid-gap: 5px;
 	grid-template-columns: 5fr 3fr;
@@ -293,9 +296,12 @@ img.icon {
 	color: #999999;
 }
 
+.div_payments {
+	grid-area: div_payments;
+}
 
 .payments {
-	grid-area: payments;
+
 
 	display: grid;
 	grid-template-areas:
@@ -334,6 +340,9 @@ img.icon {
 	grid-area: sum;
 	text-align: right;
 	color: #E2E2E2;
+	font-size: 16px;
+	font-weight: 700;
+
 }
 
 .note {
@@ -348,6 +357,12 @@ img.icon {
 img.img_icon {
 	width: 30px;
 	height: 30px;
+}
+
+.sum_green {
+	color: green;
+	/*font-weight: 800;*/
+	font-size: 18px;
 }
 
 

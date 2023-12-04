@@ -22,7 +22,11 @@ myDate = new Date().toLocaleDateString('ru-RU', { weekday: "long", year: "numeri
 console.log(myDate);
 
 myDate = new Date().toLocaleDateString('uk-UA', { weekday: "long", year: "numeric", month: "long", day: "numeric" });
-console.log(myDate); // понеділок, 4 грудня 2023 р. Date.parse('HH:mm');
+myDate = '2005-11-04'; // так не работает
+console.log(myDate); // понеділок, 4 грудня 2023 р.
+myDate = myDate.substring(0, myDate.length - 3);
+
+console.log(myDate); // понеділок, 4 грудня 2023
 
 myTime = new Date().toLocaleTimeString("uk-UA");
 console.log(myTime); // 07:41:54
