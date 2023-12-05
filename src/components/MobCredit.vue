@@ -40,7 +40,7 @@
 			</div>
 
 			<div v-for="payDay in  paymentDays" :key="payDay.id_date_payment" class="payment_days">
-				<div class="pay day">{{ payDay.date_string }}</div>
+				<div class="pay day">{{ strInDate(payDay.date_payment) }}</div>
 				<div class="pay total">{{ numStrFormat(payDay.totalSum) + ' UAH&nbsp;&nbsp;' }}</div>
 				<div class="div_payments">
 					<div v-for="row in  payDay.payments" :key="row.id_payment" class="pay payments">
@@ -310,7 +310,7 @@ img.icon {
 		'icon time time time';
 	grid-gap: 2px;
 	grid-template-columns: 40px 2fr 2fr 3fr;
-	grid-template-rows: 40px 1fr 40px;
+	grid-template-rows: 20px 1fr 30px;
 }
 
 .pay {

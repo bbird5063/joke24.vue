@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 04 2023 г., 15:58
+-- Время создания: Дек 05 2023 г., 06:26
 -- Версия сервера: 10.4.22-MariaDB
 -- Версия PHP: 8.1.2
 
@@ -79,25 +79,24 @@ INSERT INTO `credit` (`id_credit`, `NameCredit`, `UserIndex`) VALUES
 
 CREATE TABLE `day_payment` (
   `id_date_payment` int(11) NOT NULL,
-  `date_payment` date NOT NULL DEFAULT current_timestamp(),
-  `date_string` varchar(100) NOT NULL
+  `date_payment` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `day_payment`
 --
 
-INSERT INTO `day_payment` (`id_date_payment`, `date_payment`, `date_string`) VALUES
-(11, '2023-09-01', 'П\'ятниця, 01 вересня 2023'),
-(12, '2023-09-08', 'П\'ятниця, 08 вересня 2023'),
-(13, '2023-09-12', 'Вівторок, 12 вересня 2023'),
-(14, '2023-09-13', 'Середа, 13 вересня 2023'),
-(15, '2023-09-14', 'Четвер, 14 вересня 2023'),
-(16, '2023-09-20', 'Середа, 20 вересня 2023'),
-(17, '2023-10-01', 'Неділя, 01 жовтня 2023'),
-(18, '2023-10-06', 'П\'ятниця, 06 жовтня 2023'),
-(19, '2023-10-12', 'Четвер, 12 жовтня 2023'),
-(20, '2023-10-13', 'П\'ятниця, 13 жовтня 2023');
+INSERT INTO `day_payment` (`id_date_payment`, `date_payment`) VALUES
+(11, '2023-09-01'),
+(12, '2023-09-08'),
+(13, '2023-09-12'),
+(14, '2023-09-13'),
+(15, '2023-09-14'),
+(16, '2023-09-20'),
+(17, '2023-10-01'),
+(18, '2023-10-06'),
+(19, '2023-10-12'),
+(20, '2023-10-13');
 
 -- --------------------------------------------------------
 
@@ -202,7 +201,6 @@ ALTER TABLE `credit`
 ALTER TABLE `day_payment`
   ADD PRIMARY KEY (`id_date_payment`),
   ADD UNIQUE KEY `date_payment` (`date_payment`),
-  ADD UNIQUE KEY `date_string` (`date_string`),
   ADD KEY `currentDate` (`date_payment`);
 
 --
