@@ -3,12 +3,12 @@
 		<mob-credit v-if="$store.state.card.idCurrentCard == 1"></mob-credit>
 		<mob-payment v-if="$store.state.card.idCurrentCard == 2"></mob-payment>
 		<mob-help v-if="$store.state.card.idCurrentCard == 3"></mob-help>
-		<mob-list></mob-list>
+		<!--mob-list></mob-list-->
 	</div>
 </template>
 
 <script>
-import MobList from '@/components/MobList';
+//import MobList from '@/components/MobList';
 import MobCredit from '@/components/MobCredit';
 import MobPayment from '@/components/MobPayment';
 import MobHelp from '@/components/MobHelp';
@@ -16,14 +16,13 @@ import axios from 'axios';
 
 export default {
 	components: {
-		MobList,
+		//MobList,
 		MobCredit,
 		MobPayment,
 		MobHelp
 	},
 	data() {
-		return {
-		};
+		return {};
 	},
 
 	methods: {},
