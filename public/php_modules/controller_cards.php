@@ -11,7 +11,7 @@
 		for ($j = 0; $j < $count_rows; ++$j) {
 			$result->data_seek($j);
 			$arrFields = $result->fetch_array(MYSQLI_ASSOC);
-			$data['cardsContent'][$arrFields['key_card']] = $arrFields;
+			$data['cardsContent']['card_' . $arrFields['id_card']] = $arrFields;
 			unset($arrFields);
 		}
 	}

@@ -12,11 +12,11 @@
 				<div class="carousel-item active">
 					<div class="card_content">
 						<div id="credidCard" @click="openCurrentCard(1)" class="card">
-							<div class="item item_1">{{ cardsContent.credidCard.shortNameCard }}</div>
-							<div class="item item_2">{{ cardsContent.credidCard.shortNumberCard }}</div>
-							<div class="item item_3">{{ cardsContent.credidCard.periodCard }}</div>
+							<div class="item item_1">{{ cardsContent.card_1.shortNameCard }}</div>
+							<div class="item item_2">{{ cardsContent.card_1.shortNumberCard }}</div>
+							<div class="item item_3">{{ cardsContent.card_1.periodCard }}</div>
 							<div class="item item_4">
-								<div>{{ numStrFormat(cardsContent.credidCard.sumCard)  + ' UAH' }}</div>
+								<div>{{ numStrFormat(cardsContent.card_1.sumCard)  + ' UAH' }}</div>
 								<img src="~@/assets/img/cards/icon_5.png" alt="icon_5.png" width="57" height="38">
 							</div>
 						</div>
@@ -25,11 +25,11 @@
 				<div class="carousel-item">
 					<div class="card_content">
 						<div id="paymentCard" @click="openCurrentCard(2)" class="card">
-							<div class="item item_1">{{ cardsContent.paymentCard.shortNameCard }}</div>
-							<div class="item item_2">{{ cardsContent.paymentCard.shortNumberCard }}</div>
-							<div class="item item_3">{{ cardsContent.paymentCard.periodCard }}</div>
+							<div class="item item_1">{{ cardsContent.card_2.shortNameCard }}</div>
+							<div class="item item_2">{{ cardsContent.card_2.shortNumberCard }}</div>
+							<div class="item item_3">{{ cardsContent.card_2.periodCard }}</div>
 							<div class="item item_4">
-								<div>{{ numStrFormat(cardsContent.paymentCard.sumCard)  + ' UAH' }}</div>
+								<div>{{ numStrFormat(cardsContent.card_2.sumCard)  + ' UAH' }}</div>
 								<img style="margin-top:5px;" src="~@/assets/img/cards/icon_6.png" alt="icon_6.png" width="68" height="26">
 							</div>
 						</div>
@@ -38,11 +38,11 @@
 				<div class="carousel-item">
 					<div class="card_content">
 						<div id="helpCard" @click="openCurrentCard(3)" class="card">
-							<div class="item item_1">{{ cardsContent.helpCard.shortNameCard }}</div>
-							<div class="item item_2">{{ cardsContent.helpCard.shortNumberCard }}</div>
-							<div class="item item_3">{{ cardsContent.helpCard.periodCard }}</div>
+							<div class="item item_1">{{ cardsContent.card_3.shortNameCard }}</div>
+							<div class="item item_2">{{ cardsContent.card_3.shortNumberCard }}</div>
+							<div class="item item_3">{{ cardsContent.card_3.periodCard }}</div>
 							<div class="item item_4">
-								<div>{{ numStrFormat(cardsContent.helpCard.sumCard)  + ' UAH' }}</div>
+								<div>{{ numStrFormat(cardsContent.card_3.sumCard)  + ' UAH' }}</div>
 								<img style="margin-top:5px;" src="~@/assets/img/cards/icon_6.png" alt="icon_6.png"
 									width="68" height="26"><!--padding-left: 16px;-->
 							</div>

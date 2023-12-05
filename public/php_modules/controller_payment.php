@@ -8,7 +8,7 @@
 	
 	$connect = new mysqli(BBR_DBSERVER, BBR_DBUSER, BBR_DBPASSWORD, BBR_DATABASE);
 	$sql = "
-	SELECT payment.*, day_payment.date_payment, day_payment.date_string,
+	SELECT payment.*, day_payment.date_payment, 
 	type_payment.name_type_payment 
 	FROM 
 	(payment 
@@ -38,8 +38,6 @@
 				$row_payment = array(
 				'id_date_payment' => $arrFields['id_date_payment'],
 				'date_payment' 		=> $arrFields['date_payment'],
-				'date_string' 		=> $arrFields['date_string'],
-				'date_string' 		=> $arrFields['date_string'],
 				'totalSum' 				=> 0,
 				);
 			}

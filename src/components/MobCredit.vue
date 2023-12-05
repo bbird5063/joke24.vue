@@ -13,20 +13,20 @@
 				<div class="item item_3"></div>
 				<div class="item item_4"></div>
 				<div class="item item_5"></div>
-				<div class="item item_6">{{ cardsContent.credidCard.shortNumberCard }}</div>
-				<div class="item item_7">{{ cardsContent.credidCard.periodCard }}</div>
+				<div class="item item_6">{{ cardsContent['card_' + idCurrentCard].shortNumberCard }}</div>
+				<div class="item item_7">{{ cardsContent['card_' + idCurrentCard].periodCard }}</div>
 				<div class="item item_8">CVV2</div>
 				<div class="item item_9"></div>
-				<div class="item item_10">{{ numStrFormat(cardsContent.credidCard.sumCard) + ' UAH&nbsp;&nbsp;' }}</div>
+				<div class="item item_10">{{ numStrFormat(cardsContent['card_' + idCurrentCard].sumCard) + ' UAH&nbsp;&nbsp;' }}</div>
 				<div class="item item_11"></div>
-				<div class="item item_12">{{ numStrFormat(cardsContent.credidCard.limitCard) + ' UAH&nbsp;&nbsp;' }}<i
+				<div class="item item_12">{{ numStrFormat(cardsContent['card_' + idCurrentCard].limitCard) + ' UAH&nbsp;&nbsp;' }}<i
 						class="fa fa-chevron-right"></i></div>
 				<div class="item item_13"></div>
-				<div class="item item_14">{{ numStrFormat(cardsContent.credidCard.debtCard) + ' UAH&nbsp;&nbsp;' }}<i
+				<div class="item item_14">{{ numStrFormat(cardsContent['card_' + idCurrentCard].debtCard) + ' UAH&nbsp;&nbsp;' }}<i
 						class="fa fa-chevron-right"></i></div>
 				<div class="item item_15"></div>
 				<div class="item item_16">{{
-					numStrFormat(cardsContent.credidCard.minSumCard) + ' UAH&nbsp;&nbsp;' }}<i class="fa fa-info"></i></div>
+					numStrFormat(cardsContent['card_' + idCurrentCard].minSumCard) + ' UAH&nbsp;&nbsp;' }}<i class="fa fa-info"></i></div>
 				<div class="item item_17"></div>
 			</div>
 			<div class="listPayment">
@@ -98,6 +98,7 @@ export default {
 	computed: {
 		...mapState({
 			cardsContent: state => state.card.cardsContent,
+			idCurrentCard: state => state.card.idCurrentCard,
 		}),
 	},
 
