@@ -1,6 +1,6 @@
 <template>
 	<div>
-		paymentCard
+		HeadPayment.vue
 	</div>
 </template>
 

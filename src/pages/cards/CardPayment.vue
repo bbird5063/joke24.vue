@@ -1,27 +1,33 @@
 <template>
-	<div class="rootList">
-		<div class="listPayment">
-			<div @click="cardVisible = !cardVisible; $emit('visible', cardVisible);" style="text-align:center;">
-				<div v-if="isLoading">
-					<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-					<span class="sr-only">Загрузка...</span>
-				</div>
-				<i v-else class="fa fa-window-minimize"></i>
-			</div>
-		</div>
-		
-		<div v-for="payDay in paymentDays" :key="payDay.id_date_payment" class="payment_days">
-			<div class="pay day">{{ strInDate(payDay.date_payment) }}</div>
-			<div class="pay total">{{ numStrFormat(payDay.totalSum) + ' UAH&nbsp;&nbsp;' }}</div>
-			<div class="div_payments">
-				<div v-for="row in  payDay.payments" :key="row.id_payment" class="pay payments">
-					<div class="pay icon"><img class="img_icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
+	<div>
+		<div v-if="cardsContent" class="root">
+			<head-credit v-if="$store.state.card.idCurrentCard == 1" :cardVisible="cardVisible"></head-credit>
+			<head-payment v-if="$store.state.card.idCurrentCard > 1" :cardVisible="cardVisible"></head-payment>
+			
+			
+			<div class="listPayment">
+				<div @click="cardVisible = !cardVisible" style="text-align:center;">
+					<div v-if="isLoading">
+						<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+						<span class="sr-only">Загрузка...</span>
 					</div>
-					
-					<div class="pay type">{{ row.name_type_payment }}</div>
-					<div class="pay sum" :class="{ 'sum_green': row.sumPayment > 0 }">{{ numStrFormat(row.sumPayment) + ' UAH &nbsp;&nbsp;' }}</div>
-					<div class="pay note">{{ row.purpPayment }}</div>
-					<div class="pay time">{{ row.time_payment.substring(0, 5) }}</div>
+					<i v-else class="fa fa-window-minimize"></i>
+				</div>
+			</div>
+			
+			<div v-for="payDay in  paymentDays" :key="payDay.id_date_payment" class="payment_days">
+				<div class="pay day">{{ strInDate(payDay.date_payment) }}</div>
+				<div class="pay total">{{ numStrFormat(payDay.totalSum) + ' UAH&nbsp;&nbsp;' }}</div>
+				<div class="div_payments">
+					<div v-for="row in  payDay.payments" :key="row.id_payment" class="pay payments">
+						<div class="pay icon"><img class="img_icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
+						</div>
+						
+						<div class="pay type">{{ row.name_type_payment }}</div>
+						<div class="pay sum" :class="{ 'sum_green': row.sumPayment > 0 }">{{ numStrFormat(row.sumPayment) + ' UAH &nbsp;&nbsp;' }}</div>
+						<div class="pay note">{{ row.purpPayment }}</div>
+						<div class="pay time">{{ row.time_payment.substring(0, 5) }}</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -32,9 +38,15 @@
 	import axios from 'axios';
 	import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
 	import toggleMixin from '@/mixins/toggleMixin';
+	import HeadCredit from "@/components/HeadCredit";
+	import HeadPayment from "@/components/HeadPayment";
 	
 	export default {
 		mixins: [toggleMixin],
+		components: {
+			HeadCredit,
+			HeadPayment,
+		},
 		data() {
 			return {
 				cardVisible: true,
@@ -53,10 +65,12 @@
 						} else {
 						url = '/php_modules/controller_payment.php';
 					}
-					const response = await axios.get(url, { params: { id_card: 1 } });
+					const response = await axios.get(url, { params: { id_card: this.$store.state.card.idCurrentCard } });
 					console.log('----response.data----');
 					console.log(response.data);
-					this.paymentDays = response.data.paymentDays;
+					if(response.data.paymentDays) {
+						this.paymentDays = response.data.paymentDays;
+					}	
 					} catch (e) {
 					alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
 					} finally {
@@ -79,8 +93,30 @@
 </script>
 
 <style scoped>
-	.rootList {
-	width: 360px;	}
+	img.icon {
+	width: 30px;
+	height: 30px;
+	}
+	
+	.root {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #212121;
+	width: 100%;
+	height: 100%;
+	}
+	
+	.listPayment,
+	.payment_days {
+	width: 360px;
+	}
+	
+	
+	
+	.fa-chevron-right {
+	font-size: 12px;
+	}
 	
 	.listPayment {
 	background-color: #212121;
@@ -88,19 +124,7 @@
 	}
 	
 	
-	img.icon {
-	width: 30px;
-	height: 30px;
-	}
-	
-	.fa-chevron-right {
-	font-size: 12px;
-	}
-	
-	
-	
 	.payment_days {
-	/*width: 360px;*/
 	padding: 10px;
 	display: grid;
 	/*justify-content: center;*/
@@ -120,6 +144,8 @@
 	}
 	
 	.payments {
+	
+	
 	display: grid;
 	grid-template-areas:
 	'icon type type sum'
@@ -179,7 +205,7 @@
 	.sum_green {
 	color: green;
 	/*font-weight: 800;*/
-	font-size: 17px;
+	font-size: 18px;
 	}
 	
 	
@@ -195,4 +221,13 @@
 	transition: all 0.9 s ease;
 	}
 	
+	.spab-enter-from,
+	.spab-leave-to {
+	opacity: 0;
+	transform: translateY(130px);
+	}
+	
+	.spab-move {
+	transition: transform 0.4s ease;
+	}
 </style>

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import CardHome from '@/pages/cards/CardHome.vue';
-import CardList from '@/pages/cards/CardList.vue';
+import CardPayment from '@/pages/cards/CardPayment.vue';
 
 const routes = [
 	{
@@ -12,8 +12,8 @@ const routes = [
 		component: CardHome,
 	},
 	{
-		path: '/CardList',
-		component: CardList,
+		path: '/CardPayment',
+		component: CardPayment,
 	},
 ];
 
