@@ -43,7 +43,6 @@
 			}
 			$row_payment['payments'][] = array(
 			'id_payment' 				=> $arrFields['id_payment'],
-			'id_credit' 				=> $arrFields['id_credit'],
 			'id_type_payment' 	=> $arrFields['id_type_payment'],
 			'name_type_payment' => $arrFields['name_type_payment'],
 			'time_payment' 			=> $arrFields['time_payment'],
