@@ -9,7 +9,7 @@
 		</div>
 		<div id="carouselExample" class="carousel slide" data-bs-touch="true">
 			<div class="carousel-inner">
-				<div class="carousel-item active">
+				<div class="carousel-item"  :class="{active: idCurrentCard==1}">
 					<div class="card_content">
 						<div id="credidCard" @click="openCurrentCard(1)" class="card">
 							<div class="item item_1">{{ cardsContent.card_1.shortNameCard }}</div>
@@ -22,7 +22,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="carousel-item">
+				<div class="carousel-item" :class="{active: idCurrentCard==2}">
 					<div class="card_content">
 						<div id="paymentCard" @click="openCurrentCard(2)" class="card">
 							<div class="item item_1">{{ cardsContent.card_2.shortNameCard }}</div>
@@ -35,7 +35,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="carousel-item">
+				<div class="carousel-item" :class="{active: idCurrentCard==3}">
 					<div class="card_content">
 						<div id="helpCard" @click="openCurrentCard(3)" class="card">
 							<div class="item item_1">{{ cardsContent.card_3.shortNameCard }}</div>

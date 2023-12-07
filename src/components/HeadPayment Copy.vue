@@ -1,13 +1,13 @@
 <template>
 	<div>
 		<div v-if="cardsContent" class="root">
-			<div v-show="!cardVisible" class="cardHeader">
+			<div v-show="!cardVisible" class="cardHeader" :class="{card_payment: idCurrentCard==2, card_help: idCurrentCard==3}">
 				<div @click="$router.push('/CardHome')" class="item item_1"></div>
 				<div class="item item_2"></div>
 				<div class="item item_3"></div>
 				<div class="item item_4"></div>
 			</div>
-			<div v-show="cardVisible" class="card">
+			<div v-show="cardVisible" class="card" :class="{card_payment: idCurrentCard==2, card_help: idCurrentCard==3}">
 				<div @click="$router.push('/CardHome')" class="item item_1"></div>
 				<div class="item item_2"></div>
 				<div class="item item_3"></div>
@@ -91,15 +91,22 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	background-color: #212121;
 	width: 100%;
 	height: 100%;
-	background-color: #212121;
 	}
 	
 	.card,
 	.cardHeader {
 	width: 360px;
-	color: white;
+	}
+	
+	.cardHeader.card_payment {
+	background-image: url('~@/assets/img/cards/cardPayment.jpg');
+	}
+	
+	.cardHeader.card_help {
+	background-image: url('~@/assets/img/cards/cardHelp.jpg');
 	}
 	
 	.cardHeader {
@@ -108,32 +115,45 @@
 	grid-template-columns: repeat(6, 1fr);
 	grid-auto-rows: 46px;
 	grid-column-gap: 0;
-	background-image: url('~@/assets/img/cards/cardCredit.jpg');
+	/*background-image: url('~@/assets/img/cards/cardCredit.jpg');*/
 	background-size: cover;
 	background-repeat: no-repeat;
+	background-color: #212121;
 	
 	font-size: 18px;
 	font-weight: 400;
+	color: white;
 	
 	border-radius: 0;
 	}
 	
+	.card.card_payment {
+	background-image: url('~@/assets/img/cards/cardPayment.jpg');
+	}
+	
+	.card.card_help {
+	background-image: url('~@/assets/img/cards/cardHelp.jpg');
+	}
+	
 	.card {
-	border: 0;
 	height: 406px;
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);
 	grid-template-rows: 46px 78px 30px 48px 38px 29px 34px 37px 65px;
 	grid-column-gap: 0;
 	
-	background-image: url('~@/assets/img/cards/cardCredit.jpg');
+	/*background-image: url('~@/assets/img/cards/cardCredit.jpg');*/
 	/* cover/contain */
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
+	background-color: #212121;
 	
 	font-size: 18px;
 	font-weight: 400;
+	color: white;
+	
+	border-radius: 0;
 	}
 	
 	
