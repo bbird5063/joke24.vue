@@ -222,8 +222,9 @@
 	font-size: 20px;
 	font-weight: 400;
 	text-align: left;
-	padding-left: 14px;
-	padding-top: 5px;
+	/*изменять через моб*/
+	padding-left: 7px;
+	padding-top: 7px;
 	}
 	
 	.item_10 {

@@ -1,6 +1,6 @@
 <?php
 	$data = [];
-	$filename = '../../public/json_database/card.json';
+	$filename = '../../public/json_database/cards.json';
 	require 'config.php';
 	
 	$connect = new mysqli(BBR_DBSERVER, BBR_DBUSER, BBR_DBPASSWORD, BBR_DATABASE);

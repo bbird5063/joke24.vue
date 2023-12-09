@@ -15,7 +15,7 @@
 				</div>
 			</div>
 			
-			<div v-for="payDay in  paymentDays" :key="payDay.id_date_payment" class="payment_days">
+			<div v-for="payDay in  cardsPayments['card_' + idCurrentCard]" :key="payDay.id_date_payment" class="payment_days">
 				<div class="pay day">{{ strInDate(payDay.date_payment) }}</div>
 				<div class="pay total">{{ numStrFormat(payDay.totalSum) + ' UAH&nbsp;&nbsp;' }}</div>
 				<div class="div_payments">
@@ -50,45 +50,21 @@
 		data() {
 			return {
 				cardVisible: true,
-				paymentDays: null,
-				isLoading: false,
 			}
 		},
 		
-		methods: {
-			async loadPayments() {
-				try {
-					this.isLoading = true;
-					let url;
-					if (this.$store.state.card.isLocalhost) {
-						url = '/json_database/paymentDays_' + this.$store.state.card.idCurrentCard + '.json';
-						} else {
-						url = '/php_modules/controller_payment.php';
-					}
-					const response = await axios.get(url, { params: { id_card: this.$store.state.card.idCurrentCard } });
-					console.log('----response.data----');
-					console.log(response.data);
-					if(response.data.paymentDays) {
-						this.paymentDays = response.data.paymentDays;
-					}	
-					} catch (e) {
-					alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
-					} finally {
-					this.isLoading = false;
-				}
-			},
-		},
+		methods: {},
 		
 		computed: {
 			...mapState({
 				cardsContent: state => state.card.cardsContent,
+				cardsPayments: state => state.card.cardsPayments,
 				idCurrentCard: state => state.card.idCurrentCard,
+				isLoading: state => state.card.isLoading,
 			}),
 		},
 		
-		mounted() {
-			this.loadPayments();
-		},
+		mounted() {},
 	}
 </script>
 

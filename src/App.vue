@@ -13,6 +13,7 @@ export default {
 	},
 	mounted() {
 		this.$store.dispatch('card/updateCards');
+		this.$store.dispatch('card/updatePayments');
 	},
 };
 </script>
