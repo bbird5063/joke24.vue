@@ -1,7 +1,7 @@
 <template>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#"><img src="~@/assets/img/icons/logo_privat24_round.png"
+			<a @click.prevent="$router.push('/')" class="navbar-brand" href="#"><img src="~@/assets/img/icons/logo_privat24_round.png"
 					alt="logo_privat24_round.png" width="30" height="30" class="d-inline-block align-text-top"></a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,9 +18,9 @@
 							Редактирование
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="#">Кредитная</a></li>
-							<li><a class="dropdown-item" href="#">Платежная</a></li>
-							<li><a class="dropdown-item" href="#">є-Підтримка</a></li>
+							<li><a  @click.prevent="$store.commit('card/setIdCurrentCard', 1); $router.push('/EditPayment');" class="dropdown-item" href="#">Кредитная</a></li>
+							<li><a  @click.prevent="$store.commit('card/setIdCurrentCard', 2); $router.push('/EditPayment');" class="dropdown-item" href="#">Платежная</a></li>
+							<li><a  @click.prevent="$store.commit('card/setIdCurrentCard', 3); $router.push('/EditPayment');" class="dropdown-item" href="#">є-Підтримка</a></li>
 							<li>
 								<hr class="dropdown-divider">
 							</li>

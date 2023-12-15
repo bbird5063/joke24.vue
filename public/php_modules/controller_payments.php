@@ -13,7 +13,7 @@
 		for ($k = 0; $k < $count_cards; ++$k) {
 			$resultCards->data_seek($k);
 			$arrCards = $resultCards->fetch_array(MYSQLI_ASSOC);
-			$idCatd = $arrCards['id_card'];
+			$idCard = $arrCards['id_card'];
 			$sql = "
 			SELECT payment.*, day_payment.date_payment, 
 			type_payment.name_type_payment 
@@ -21,7 +21,7 @@
 			(payment 
 			LEFT JOIN day_payment ON payment.id_date_payment = day_payment.id_date_payment) 
 			LEFT JOIN type_payment ON payment.id_type_payment = type_payment.id_type_payment 
-			WHERE payment.id_card=$idCatd 
+			WHERE payment.id_card=$idCard 
 			ORDER BY 
 			day_payment.date_payment DESC,
 			payment.time_payment DESC;
@@ -35,12 +35,13 @@
 					if ($arrFields['id_date_payment'] !== $currIdDatePayment) { // новый день
 						if (isset($row_payment)) { // не первая запись
 							$row_payment['totalSum'] = $totalSum;
-							$data['cardsPayments']['card_' . $idCatd][] = $row_payment;
+							$data['cardsPayments']['card_' . $idCard][] = $row_payment;
 							$totalSum = 0;
 							unset($row_payment);
 						}
 						$currIdDatePayment = $arrFields['id_date_payment'];
 						$row_payment = array(
+						'save' 						=> false,
 						'id_date_payment' => $arrFields['id_date_payment'],
 						'date_payment' 		=> $arrFields['date_payment'],
 						'totalSum' 				=> 0,
@@ -56,9 +57,9 @@
 					);
 					$totalSum += $arrFields['sumPayment'];
 					
-					if($j == $count_rows - 1){ // последняя запись(следующей интерации не будет!)
+					if($j == $count_rows - 1){ //save последняя запись(следующей интерации не будет!)
 						$row_payment['totalSum'] = $totalSum;
-						$data['cardsPayments']['card_' . $idCatd][] = $row_payment;
+						$data['cardsPayments']['card_' . $idCard][] = $row_payment;
 						unset($row_payment);
 					}
 					

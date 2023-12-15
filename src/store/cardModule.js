@@ -18,7 +18,7 @@ export const cardModule = {
 				location.hostname.includes('localhost')
 				) {
 				state.isLocalhost = true;
-				state.isMenuVisible = false; // true
+				state.isMenuVisible = true; // true
 				} else {
 				state.isLocalhost = false;
 				state.isMenuVisible = true;

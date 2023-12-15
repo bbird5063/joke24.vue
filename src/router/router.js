@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import CardHome from '@/pages/cards/CardHome.vue';
 import CardPayment from '@/pages/cards/CardPayment.vue';
+import EditPayment from '@/pages/cards/EditPayment.vue';
 
 const routes = [
 	{
@@ -14,6 +15,10 @@ const routes = [
 	{
 		path: '/CardPayment',
 		component: CardPayment,
+	},
+	{
+		path: '/EditPayment',
+		component: EditPayment,
 	},
 ];
 

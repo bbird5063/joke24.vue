@@ -1,7 +1,7 @@
 <?php
 	$data = [];
-	$idCatd = $_GET['id_card'];
-	$filename = "../../public/json_database/paymentDays_$idCatd.json";
+	$idCard = $_GET['id_card'];
+	$filename = "../../public/json_database/paymentDays_$idCard.json";
 	require 'config.php';
 	$currIdDatePayment = 0;
 	$totalSum = 0;
@@ -14,7 +14,7 @@
 	(payment 
 	LEFT JOIN day_payment ON payment.id_date_payment = day_payment.id_date_payment) 
 	LEFT JOIN type_payment ON payment.id_type_payment = type_payment.id_type_payment 
-	WHERE payment.id_card=$idCatd 
+	WHERE payment.id_card=$idCard 
 	ORDER BY 
 	day_payment.date_payment DESC,
 	payment.time_payment DESC;
