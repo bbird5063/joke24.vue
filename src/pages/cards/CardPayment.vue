@@ -37,12 +37,12 @@
 <script>
 	import axios from 'axios';
 	import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
-	import toggleMixin from '@/mixins/toggleMixin';
+	import functionsMixin from '@/mixins/functionsMixin';
 	import HeadCredit from "@/components/HeadCredit";
 	import HeadPayment from "@/components/HeadPayment";
 	
 	export default {
-		mixins: [toggleMixin],
+		mixins: [functionsMixin],
 		components: {
 			HeadCredit,
 			HeadPayment,

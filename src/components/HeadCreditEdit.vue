@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="cardsContent" class="root">
+		<div v-if="cardsContent && editCard" class="root">
 			<div v-show="!cardVisible" class="cardHeader">
 				<div @click="$router.push('/CardHome')" class="item item_1"></div>
 				<div class="item item_2"></div>
@@ -13,20 +13,17 @@
 				<div class="item item_3"></div>
 				<div class="item item_4"></div>
 				<div class="item item_5"></div>
-				<div class="item item_6" @click="visibleNumberCard">{{ numberCard }}</div>
+				<div class="item item_6"><input v-model="editCard.numberCard" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
 				<div class="item item_7"><input v-model="editCard.periodCard" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
-				<div class="item item_8" @click="visibleCvv2">{{ cvv2 }}</div>
+				<div class="item item_8"><input v-model="editCard.cvv2" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
 				<div class="item item_9"></div>
-				<div class="item item_10">{{ numStrFormat(cardsContent['card_' + idCurrentCard].sumCard) + ' UAH&nbsp;&nbsp;' }}</div>
+				<div class="item item_10"><input v-model="editCard.sumCard" style="text-align:right" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
 				<div class="item item_11"></div>
-				<div class="item item_12">{{ numStrFormat(cardsContent['card_' + idCurrentCard].limitCard) + ' UAH&nbsp;&nbsp;' }}<i
-				class="fa fa-chevron-right"></i></div>
+				<div class="item item_12"><input v-model="editCard.limitCard" style="text-align:right" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
 				<div class="item item_13"></div>
-				<div class="item item_14">{{ numStrFormat(cardsContent['card_' + idCurrentCard].debtCard) + ' UAH&nbsp;&nbsp;' }}<i
-				class="fa fa-chevron-right"></i></div>
+				<div class="item item_14"><input v-model="editCard.debtCard" style="text-align:right" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
 				<div class="item item_15"></div>
-				<div class="item item_16">{{
-				numStrFormat(cardsContent['card_' + idCurrentCard].minSumCard) + ' UAH&nbsp;&nbsp;' }}<i class="fa fa-info"></i></div>
+				<div class="item item_16"><input v-model="editCard.minSumCard" style="text-align:right" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
 				<div class="item item_17"></div>
 			</div>
 		</div>
@@ -36,10 +33,10 @@
 <script>
 	import axios from 'axios';
 	import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
-	import toggleMixin from '@/mixins/toggleMixin';
+	import functionsMixin from '@/mixins/functionsMixin';
 	
 	export default {
-		mixins: [toggleMixin],
+		mixins: [functionsMixin],
 		props: {
 			cardVisible: {
 				type: Boolean,
@@ -66,7 +63,7 @@
 				updateCards: 'card/updateCards'
 				}),
 			*/
-			
+			/*
 			visibleNumberCard() {
 				if(this.numberCard.trim() !== this.cardsContent['card_' + this.idCurrentCard].numberCard) {
 					setTimeout(() => {
@@ -81,7 +78,7 @@
 					}, 1000)
 				}
 			},
-			
+			*/
 			async loadEditCard() {
 				try {
 					//this.commit('setIsLoading', true);
@@ -118,6 +115,7 @@
 		
 		mounted() {
 			this.numberCard = this.cardsContent['card_' + this.idCurrentCard].shortNumberCard;
+			//this.numberCard = hideNumCard(editCard.numberCard)
 			this.loadEditCard();
 		},
 	}
@@ -173,7 +171,18 @@
 	font-weight: 400;
 	}
 	
-	
+	input {
+	background: transparent;
+	color: #cfcece;
+	font-size: 1rem;
+	}	
+
+	input:focus {
+	background: transparent;
+	color: #dfdbdb;
+	font-size: 1rem;
+	}	
+
 	.item {
 	/*border: 1px solid black;*/
 	text-align: right;
@@ -192,15 +201,24 @@
 	grid-column-end: 7;
 	}
 	
-	.item_7,
-	.item_9 {
+	.item_7 {
 	grid-column-start: 1;
 	grid-column-end: 3;
+	
+	}
+
+	.item_9 {
+	grid-column-start: 1;
+	grid-column-end: 4;
 	}
 	
-	.item_8,
-	.item_10 {
+	.item_8 {
 	grid-column-start: 3;
+	grid-column-end: 7;
+	}
+
+	.item_10 {
+	grid-column-start: 4;
 	grid-column-end: 7;
 	}
 	
@@ -208,13 +226,13 @@
 	.item_13,
 	.item_15 {
 	grid-column-start: 1;
-	grid-column-end: 4;
+	grid-column-end: 5;
 	}
 	
 	.item_12,
 	.item_14,
 	.item_16 {
-	grid-column-start: 4;
+	grid-column-start: 5;
 	grid-column-end: 7;
 	}
 	

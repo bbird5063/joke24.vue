@@ -11,5 +11,10 @@ export default {
 			strDate = strDate.toLocaleDateString('uk-UA', { weekday: "long", year: "numeric", month: "long", day: "numeric" });
 			return strDate.substring(0, strDate.length - 3); // удаляем ' p.'
 		},
+		
+		hideNumCard(numberCard) {
+			let arrNum = numberCard.split(' ');
+			return arrNum[0] + ' **** **** ' + arrNum[3];
+		}
 	},
 }

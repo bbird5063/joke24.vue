@@ -36,10 +36,10 @@
 <script>
 	import axios from 'axios';
 	import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
-	import toggleMixin from '@/mixins/toggleMixin';
+	import functionsMixin from '@/mixins/functionsMixin';
 	
 	export default {
-		mixins: [toggleMixin],
+		mixins: [functionsMixin],
 		props: {
 			cardVisible: {
 				type: Boolean,
