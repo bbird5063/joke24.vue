@@ -4,15 +4,27 @@
 	require 'config.php';
 	
 	$connect = new mysqli(BBR_DBSERVER, BBR_DBUSER, BBR_DBPASSWORD, BBR_DATABASE);
-	$sql = "SELECT * FROM card;";
-	$result = $connect->query($sql);
-	if ($result) {
+	
+	if(isset($_GET['editCard'])){
+		$id_card = $_GET['editCard']['id_card'];
+		$arrCardFields = [];
+		foreach($_GET['editCard'] as $field => $value) {
+			$arrCardFields[] = "$field='$value'";
+		}
+		$set = implode(',' , $arrCardFields);
+		$sql = "UPDATE card SET $set WHERE id_card = $id_card";
+		$connect->query($sql);
+		}
+		
+		$sql = "SELECT * FROM card;";
+		$result = $connect->query($sql);
+		if ($result) {
 		$count_rows = $result->num_rows;
 		for ($j = 0; $j < $count_rows; ++$j) {
-			$result->data_seek($j);
-			$arrFields = $result->fetch_array(MYSQLI_ASSOC);
-			$data['cardsContent']['card_' . $arrFields['id_card']] = $arrFields;
-			unset($arrFields);
+		$result->data_seek($j);
+		$arrFields = $result->fetch_array(MYSQLI_ASSOC);
+		$data['cardsContent']['card_' . $arrFields['id_card']] = $arrFields;
+		unset($arrFields);
 		}
 	}
 	
