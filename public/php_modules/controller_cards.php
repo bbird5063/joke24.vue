@@ -14,17 +14,17 @@
 		$set = implode(',' , $arrCardFields);
 		$sql = "UPDATE card SET $set WHERE id_card = $id_card";
 		$connect->query($sql);
-		}
-		
-		$sql = "SELECT * FROM card;";
-		$result = $connect->query($sql);
-		if ($result) {
+	}
+	
+	$sql = "SELECT * FROM card;";
+	$result = $connect->query($sql);
+	if ($result) {
 		$count_rows = $result->num_rows;
 		for ($j = 0; $j < $count_rows; ++$j) {
-		$result->data_seek($j);
-		$arrFields = $result->fetch_array(MYSQLI_ASSOC);
-		$data['cardsContent']['card_' . $arrFields['id_card']] = $arrFields;
-		unset($arrFields);
+			$result->data_seek($j);
+			$arrFields = $result->fetch_array(MYSQLI_ASSOC);
+			$data['cardsContent']['card_' . $arrFields['id_card']] = $arrFields;
+			unset($arrFields);
 		}
 	}
 	

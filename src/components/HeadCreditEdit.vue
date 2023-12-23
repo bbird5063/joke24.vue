@@ -45,9 +45,9 @@
 		},
 		data() {
 			return {
-				cvv2: 'CVV2',
+				//cvv2: 'CVV2',
 				//numberCard: '',
-				paymentDays: null,
+				//paymentDays: null,
 				isLoading: false,
 				editCard: null,
 			}
@@ -55,7 +55,6 @@
 		
 		methods: {
 			...mapMutations({
-				//setIdCurrentCard: 'card/setIdCurrentCard',
 				setIsLoading: 'card/setIsLoading',
 			}),
 			/*
@@ -63,37 +62,21 @@
 				updateCards: 'card/updateCards'
 				}),
 			*/
-			/*
-			visibleNumberCard() {
-				if(this.numberCard.trim() !== this.cardsContent['card_' + this.idCurrentCard].numberCard) {
-					setTimeout(() => {
-						this.numberCard = this.cardsContent['card_' + this.idCurrentCard].numberCard;
-					}, 1000)
-				}
-			},
-			visibleCvv2() {
-				if(this.cvv2.trim() !== this.cardsContent['card_' + this.idCurrentCard].cvv2) {
-					setTimeout(() => {
-						this.cvv2 = '\u00A0\u00A0' + this.cardsContent['card_' + this.idCurrentCard].cvv2;
-					}, 1000)
-				}
-			},
-			*/
 			async loadEditCard() {
 				try {
 					//this.commit('setIsLoading', true);
 					this.setIsLoading(true)
 					let url;
+					let get = null;
 					if (this.isLocalhost) {
 						url = '/json_database/cards.json';
-						} else {
+					} 
+					else {
 						/*url = '/php_modules/controller_card_edit.php';*/
 						url = '/php_modules/controller_cards.php';
-					}
-					
-					let get = null;
-					if(this.editCard) {
-						get = {params: {editCard: this.editCard}};
+						if(this.editCard) {
+							get = {params: {editCard: this.editCard}};
+						}
 					}
 					
 					const response = await axios.get(url, get);
@@ -183,13 +166,13 @@
 	color: #cfcece;
 	font-size: 1rem;
 	}	
-
+	
 	input:focus {
 	background: transparent;
 	color: #dfdbdb;
 	font-size: 1rem;
 	}	
-
+	
 	.item {
 	/*border: 1px solid black;*/
 	text-align: right;
@@ -213,7 +196,7 @@
 	grid-column-end: 3;
 	
 	}
-
+	
 	.item_9 {
 	grid-column-start: 1;
 	grid-column-end: 4;
@@ -223,7 +206,7 @@
 	grid-column-start: 3;
 	grid-column-end: 7;
 	}
-
+	
 	.item_10 {
 	grid-column-start: 4;
 	grid-column-end: 7;
