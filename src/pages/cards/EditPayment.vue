@@ -48,6 +48,11 @@
 					<div class="pay sum" :class="{ 'sum_green': row.sumPayment > 0 }">{{ numStrFormat(row.sumPayment) + ' UAH &nbsp;&nbsp;' }}</div>
 					<div class="pay note">{{ row.purpPayment }}</div>
 					<div class="pay time">{{ row.time_payment.substring(0, 5) }}</div>
+					<div class="pay btn_pay">
+						<button type="button" class="btn btn-secondary btn_pay" title="Редактировать"><i class="fa fa-pencil"></i></button>
+						<br>
+						<button type="button" class="btn btn-secondary btn_pay" title="Удалить"><i class="fa fa-close"></i></button>
+					</div>
 				</div>
 			</div>
 			</div>
@@ -232,11 +237,11 @@
 	
 	display: grid;
 	grid-template-areas:
-	'icon type type sum'
-	'icon note note note'
-	'icon time time time';
+	'icon type type sum sum'
+	'icon note note note btn_pay'
+	'icon time time time btn_pay';
 	grid-gap: 2px;
-	grid-template-columns: 40px 2fr 2fr 3fr;
+	grid-template-columns: 40px 2fr 2fr 3fr 1fr;
 	grid-template-rows: 20px 1fr 30px;
 	}
 	
@@ -279,6 +284,20 @@
 	
 	.time {
 	grid-area: time;
+	}
+	
+	.btn_pay {
+	grid-area: btn_pay;
+	}
+
+	.btn_pay button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 30px;
+	height: 30px;
+	margin-top: 4px;
+	margin-bottom: 0;
 	}
 	
 	img.img_icon {
