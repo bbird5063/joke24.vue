@@ -3,28 +3,45 @@
 		<div v-if="cardsContent && cardsPayments" class="root">
 			<head-credit-edit v-if="$store.state.card.idCurrentCard == 1" :cardVisible="cardVisible"></head-credit-edit>
 			<head-payment-edit v-if="$store.state.card.idCurrentCard > 1" :cardVisible="cardVisible"></head-payment-edit>
-			<div class="addRecords">
-				<button @click="addNewRecord" type="button" class="btn btn-primary">Добавить запись</button>
-				
-				<form @submit.prevent v-if="newRecord && typePayment">
-					<input v-model="newRecord.newDate" name="newDate" type="date" class="form-control">
-					<input v-model="newRecord.time_payment" name="time_payment" type="time" class="form-control">
-					<div class="input-group">
-						<span class="input-group-text type_payment">
-							<img v-if="newRecord.id_type_payment>0" class="img_select" :src="'/img/icons/' + newRecord.id_type_payment + '.png'">				
-						</span>	
-						<select v-model="newRecord.id_type_payment" class="form-select form-select-sm"  name="id_type_payment" aria-label=".form-select-sm example">
-							<option value="0" selected>--- Тип платежа ---</option>
-							<option v-for="type in typePayment" :key="type.id_type_payment" :value="type.id_type_payment">
-								{{ type.name_type_payment }}
-							</option>
-						</select>
+			
+			<button @click="addNewRecord" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				Добавить запись
+			</button>			
+			
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-md"> <!-- xl lg md sm xs-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Редактирование</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<form @submit.prevent v-if="newRecord && typePayment">
+								<input v-model="newRecord.newDate" name="newDate" type="date" class="form-control">
+								<input v-model="newRecord.time_payment" name="time_payment" type="time" class="form-control">
+								<div class="input-group">
+									<span class="input-group-text"> <!-- type_payment-->
+										<img v-if="newRecord.id_type_payment>0" class="img_select" :src="'/img/icons/' + newRecord.id_type_payment + '.png'">				
+									</span>	
+									<select v-model="newRecord.id_type_payment" class="form-select form-select-sm" style="height: 37.8px;"  name="id_type_payment" aria-label=".form-select-sm example">
+										<option value="0" selected>--- Тип платежа ---</option>
+										<option v-for="type in typePayment" :key="type.id_type_payment" :value="type.id_type_payment">
+											{{ type.name_type_payment }}
+										</option>
+									</select>
+								</div>
+								<textarea v-model="newRecord.purpPayment" name="purpPayment" class="form-control" rows="3"></textarea>
+								<input v-model="newRecord.sumPayment" name="sumPayment" type="text" class="form-control" style="text-align:right;">
+							</form>
+							
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+							<button type="button" class="btn btn-primary">Сохранить</button>
+						</div>
 					</div>
-					<textarea v-model="newRecord.purpPayment" name="purpPayment" class="form-control" rows="3"></textarea>
-					<input v-model="newRecord.sumPayment" name="sumPayment" type="text" class="form-control" style="text-align:right;">
-					<button type="submit" class="btn btn-primary">Сохранить</button>
-				</form>
-			</div>
+				</div>
+			</div>			
 			
 			<div class="listPayment">
 				<div @click="cardVisible = !cardVisible" style="text-align:center;">
@@ -38,23 +55,23 @@
 			
 			<div v-for="payDay in cardsPayments['card_' + idCurrentCard]" :key="payDay.id_date_payment" class="payment_days">
 				<div class="pay day">{{ strInDate(payDay.date_payment) }}</div>
-			<div class="pay total">{{ numStrFormat(payDay.totalSum) + ' UAH&nbsp;&nbsp;' }}</div>
-			<div class="div_payments">
-				<div v-for="row in  payDay.payments" :key="row.id_payment" class="pay payments">
-					<div class="pay icon"><img class="img_icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
-					</div>
-					
-					<div class="pay type">{{ row.name_type_payment }}</div>
-					<div class="pay sum" :class="{ 'sum_green': row.sumPayment > 0 }">{{ numStrFormat(row.sumPayment) + ' UAH &nbsp;&nbsp;' }}</div>
-					<div class="pay note">{{ row.purpPayment }}</div>
-					<div class="pay time">{{ row.time_payment.substring(0, 5) }}</div>
-					<div class="pay btn_pay">
-						<button type="button" class="btn btn-secondary btn_pay" title="Редактировать"><i class="fa fa-pencil"></i></button>
-						<br>
-						<button type="button" class="btn btn-secondary btn_pay" title="Удалить"><i class="fa fa-close"></i></button>
+				<div class="pay total">{{ numStrFormat(payDay.totalSum) + ' UAH&nbsp;&nbsp;' }}</div>
+				<div class="div_payments">
+					<div v-for="row in  payDay.payments" :key="row.id_payment" class="pay payments">
+						<div class="pay icon"><img class="img_icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
+						</div>
+						
+						<div class="pay type">{{ row.name_type_payment }}</div>
+						<div class="pay sum" :class="{ 'sum_green': row.sumPayment > 0 }">{{ numStrFormat(row.sumPayment) + ' UAH &nbsp;&nbsp;' }}</div>
+						<div class="pay note">{{ row.purpPayment }}</div>
+						<div class="pay time">{{ row.time_payment.substring(0, 5) }}</div>
+						<div class="pay btn_pay">
+							<button @click="newRecord=row; newRecord.newDate=payDay.date_payment;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Редактировать"><i class="fa fa-pencil"></i></button>			
+							<br>
+							<button @click="deleteRecond(row.id_payment)" type="button" class="btn btn-secondary btn_pay" title="Удалить"><i class="fa fa-close"></i></button>
+						</div>
 					</div>
 				</div>
-			</div>
 			</div>
 		</div>
 	</div>
@@ -76,7 +93,7 @@
 		data() {
 			return {
 				cardVisible: true,
-				editPayment: null,
+				/*editPayment: null,*/
 				newRecord: null,
 				typePayment: null,
 			}
@@ -85,10 +102,12 @@
 		methods: {
 			...mapMutations({
 				setIsLoading: 'card/setIsLoading',
+				setCardsPayments: 'card/setCardsPayments',
 			}),
 			
 			addNewRecord() {
 				this.newRecord = {
+					id_payment: 0,
 					id_card: this.idCurrentCard,
 					newDate: '',
 					time_payment: '',
@@ -100,6 +119,11 @@
 			},
 			
 			async readTypePayment() {
+				/*
+					const response = this.queryDb('controller_read_type.php', 'typePayment.json');
+					this.typePayment = response.data.typePayment;
+				*/
+				
 				try {
 					this.setIsLoading(true)
 					let url;
@@ -124,16 +148,11 @@
 				}
 			},
 			
-			async updateEdit() {
-				try {
-					this.editPayment = await this.cardsPayments['card_' + this.idCurrentCard];
-					console.log(this.editPayment);
-					} catch (e) {
-					alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
-					} finally {
+			deleteRecond(id_payment) {
+				if(confirm('Вы действительно хотите удалить запись?')) {
+					alert('Удаляем...');
 				}
-			},
-			
+			}
 		},
 		
 		computed: {
@@ -153,34 +172,38 @@
 </script>
 
 <style scoped>
-	
+
+	/*
 	.addRecords {
-		width: 360px;
-		margin-top: 20px;
-		margin-bottom: 10px;
-		background-color: #212121;
+	width: 360px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	background-color: #212121;
 	}
-	
 	.addRecords input, .addRecords select, .addRecords textarea , .addRecords button  {
-		margin-bottom: 5px;
+	margin-bottom: 5px;
 	}
+	*/
 	
 	img.img_select {
 	width: 22px;
 	height: 22px;
 	}
 	
+	/*
 	.type_payment {
 	width: 40px;
-	/*height: 30.81px;*/
 	height: 37.8px;
 	padding: 0;
 	padding-left: 4px;
 	}
-	
+	*/
+
+	/*
 	.addRecords select {
-		height: 37.8px;
+	height: 37.8px;
 	}
+	*/
 	
 	img.icon {
 	width: 30px;
@@ -289,7 +312,7 @@
 	.btn_pay {
 	grid-area: btn_pay;
 	}
-
+	
 	.btn_pay button {
 	display: flex;
 	justify-content: center;

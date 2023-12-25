@@ -15,6 +15,33 @@ export default {
 		hideNumCard(numberCard) {
 			let arrNum = numberCard.split(' ');
 			return arrNum[0] + ' **** **** ' + arrNum[3];
-		}
+		},
+		
+		async queryDb(filePhp, fileJson, get=null) {
+			try {
+				this.setIsLoading(true)
+				let url;
+				if (this.isLocalhost) {
+					url = '/json_database/' + fileJson;
+				} 
+				else {
+					url = '/php_modules/' + filePhp;
+				}
+				
+				const response = await axios.get(url, get);
+				
+				console.log('----' + url +':----');
+				console.log(response.data);
+				
+				return response;
+				} catch (e) {
+				alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
+				} finally {
+				this.setIsLoading(false);
+			}
+		},
+		
+		
+		
 	},
 }
