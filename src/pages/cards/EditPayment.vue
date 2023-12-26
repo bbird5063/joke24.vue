@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div v-if="cardsContent && cardsPayments" class="root">
-			<head-credit-edit v-if="$store.state.card.idCurrentCard == 1" :cardVisible="cardVisible"></head-credit-edit>
-			<head-payment-edit v-if="$store.state.card.idCurrentCard > 1" :cardVisible="cardVisible"></head-payment-edit>
+			<head-credit-edit v-if="idCurrentCard == 1" :cardVisible="cardVisible"></head-credit-edit>
+			<head-payment-edit v-if="idCurrentCard > 1" :cardVisible="cardVisible"></head-payment-edit>
 			
 			<button @click="addNewRecord" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 				Добавить запись
@@ -21,7 +21,7 @@
 								<input v-model="newRecord.time_payment" name="time_payment" type="time" class="form-control">
 								<div class="input-group">
 									<span class="input-group-text"> <!-- type_payment-->
-										<img v-if="newRecord.id_type_payment>0" class="img_select" :src="'/img/icons/' + newRecord.id_type_payment + '.png'">				
+										<img v-if="newRecord.id_type_payment>0" class="img_select" :src="'/img/icons/' + newRecord.id_type_payment + '.png'">
 									</span>	
 									<select v-model="newRecord.id_type_payment" class="form-select form-select-sm" style="height: 37.8px;"  name="id_type_payment" aria-label=".form-select-sm example">
 										<option value="0" selected>--- Тип платежа ---</option>
@@ -80,7 +80,7 @@
 <script>
 	import axios from 'axios';
 	import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
-	import functionsMixin from '@/mixins/functionsMixin';
+	import functionsMixin from "@/mixins/functionsMixin";
 	import HeadCreditEdit from "@/components/HeadCreditEdit";
 	import HeadPaymentEdit from "@/components/HeadPaymentEdit";
 	

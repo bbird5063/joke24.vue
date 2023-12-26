@@ -45,7 +45,7 @@ export const cardModule = {
 	},
 	
 	actions: {
-		async updateCards({ state, commit }) {
+		async updateCards({ state, commit }, editedCard=null) {
 			try {
 				commit('setIsLoading', true);
 				commit('setIsLocalhost');
@@ -55,7 +55,8 @@ export const cardModule = {
 					} else {
 					url = '/php_modules/controller_cards.php';
 				}
-				const response = await axios.get(url);
+			let get = editedCard ? {params: editedCard} : null;
+				const response = await axios.get(url, get);
 				commit('setCardsContent', response.data.cardsContent);
 				commit('setRate', response.data.rate);
 				

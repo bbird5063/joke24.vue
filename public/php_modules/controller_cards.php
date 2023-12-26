@@ -5,10 +5,10 @@
 	
 	$connect = new mysqli(BBR_DBSERVER, BBR_DBUSER, BBR_DBPASSWORD, BBR_DATABASE);
 	
-	if(isset($_GET['editCard'])){
-		$id_card = $_GET['editCard']['id_card'];
+	if(isset($_GET['editedCard'])){
+		$id_card = $_GET['editedCard']['id_card'];
 		$arrCardFields = [];
-		foreach($_GET['editCard'] as $field => $value) {
+		foreach($_GET['editedCard'] as $field => $value) {
 			$arrCardFields[] = "$field='$value'";
 		}
 		$set = implode(',' , $arrCardFields);

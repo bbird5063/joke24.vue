@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div v-if="cardsContent" class="root">
-			<head-credit v-if="$store.state.card.idCurrentCard == 1" :cardVisible="cardVisible"></head-credit>
-			<head-payment v-if="$store.state.card.idCurrentCard > 1" :cardVisible="cardVisible"></head-payment>
+			<head-credit v-if="idCurrentCard == 1" :cardVisible="cardVisible"></head-credit>
+			<head-payment v-if="idCurrentCard > 1" :cardVisible="cardVisible"></head-payment>
 			
 			
 			<div class="listPayment">

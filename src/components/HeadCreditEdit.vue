@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="editCard" class="root">
+		<div v-if="cardsContent" class="root">
 			<!--div v-show="!cardVisible" class="cardHeader">
 				<div @click="$router.push('/CardHome')" class="item item_1"></div>
 				<div class="item item_2"></div>
@@ -13,17 +13,17 @@
 				<div class="item item_3"></div>
 				<div @click="loadEditCard" class="item item_4"></div>
 				<div class="item item_5"></div>
-				<div class="item item_6"><input v-model="editCard.numberCard" name="numberCard" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
-				<div class="item item_7"><input v-model="editCard.periodCard" name="periodCard" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
-				<div class="item item_8"><input v-model="editCard.cvv2" name="cvv2" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
+				<div class="item item_6"><input v-model="cardsContent['card_' + this.idCurrentCard].numberCard" name="numberCard" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
+				<div class="item item_7"><input v-model="cardsContent['card_' + this.idCurrentCard].periodCard" name="periodCard" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
+				<div class="item item_8"><input v-model="cardsContent['card_' + this.idCurrentCard].cvv2" name="cvv2" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
 				<div class="item item_9"></div>
-				<div class="item item_10"><input v-model="editCard.sumCard" name="sumCard" style="text-align:right" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
+				<div class="item item_10"><input v-model="cardsContent['card_' + this.idCurrentCard].sumCard" name="sumCard" style="text-align:right" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
 				<div class="item item_11"></div>
-				<div class="item item_12"><input v-model="editCard.limitCard" name="limitCard" style="text-align:right" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
+				<div class="item item_12"><input v-model="cardsContent['card_' + this.idCurrentCard].limitCard" name="limitCard" style="text-align:right" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
 				<div class="item item_13"></div>
-				<div class="item item_14"><input v-model="editCard.debtCard" name="debtCard" style="text-align:right" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
+				<div class="item item_14"><input v-model="cardsContent['card_' + this.idCurrentCard].debtCard" name="debtCard" style="text-align:right" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
 				<div class="item item_15"></div>
-				<div class="item item_16"><input v-model="editCard.minSumCard" name="minSumCard" style="text-align:right" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
+				<div class="item item_16"><input v-model="cardsContent['card_' + this.idCurrentCard].minSumCard" name="minSumCard" style="text-align:right" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
 				<div class="item item_17"></div>
 			</div>
 		</div>
@@ -45,9 +45,6 @@
 		},
 		data() {
 			return {
-				//cvv2: 'CVV2',
-				//numberCard: '',
-				//paymentDays: null,
 				isLoading: false,
 				editCard: null,
 			}
@@ -57,41 +54,13 @@
 			...mapMutations({
 				setIsLoading: 'card/setIsLoading',
 			}),
-			/*
+			
 				...mapActions({
 				updateCards: 'card/updateCards'
 				}),
-			*/
-			async loadEditCard() {
-				try {
-					//this.commit('setIsLoading', true);
-					this.setIsLoading(true)
-					let url;
-					let get = null;
-					if (this.isLocalhost) {
-						url = '/json_database/cards.json';
-					} 
-					else {
-						/*url = '/php_modules/controller_card_edit.php';*/
-						url = '/php_modules/controller_cards.php';
-						if(this.editCard) {
-							get = {params: {editCard: this.editCard}};
-						}
-					}
-					
-					const response = await axios.get(url, get);
-					
-					this.editCard = response.data.cardsContent['card_' + this.idCurrentCard];
-					
-					console.log('----HeadCreditEdit.vue: this.editCard----');
-					console.log(this.editCard);
-					
-					} catch (e) {
-					alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
-					} finally {
-					//this.commit('setIsLoading', false);
-					this.setIsLoading(false);
-				}
+			
+			loadEditCard() {
+				this.updateCards({editedCard: this.cardsContent['card_' + this.idCurrentCard]});
 			},
 		},
 		
@@ -103,11 +72,7 @@
 			}),
 		},
 		
-		mounted() {
-			//this.numberCard = this.cardsContent['card_' + this.idCurrentCard].shortNumberCard;
-			//this.numberCard = hideNumCard(editCard.numberCard)
-			this.loadEditCard();
-		},
+		mounted() {},
 	}
 </script>
 
