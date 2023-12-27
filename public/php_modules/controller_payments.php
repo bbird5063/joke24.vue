@@ -1,35 +1,15 @@
 <?php
 	
-	function idDatePayment($date_payment) {
-		$connect = new mysqli(BBR_DBSERVER, BBR_DBUSER, BBR_DBPASSWORD, BBR_DATABASE);
-		$sql = "SELECT id_date_payment FROM day_payment WHERE date_payment='$date_payment';";
-		$result = $connect->query($sql);
-		$count_rows = $result->num_rows;
-		if($count_rows == 0) {
-			$sql = "INSERT INTO day_payment (date_payment) VALUES ('$date_payment');";
-			$connect->query($sql);
-			return $connect->insert_id;
-		}
-		else {
-			$result->data_seek(0);
-			$arrFields = $result->fetch_array(MYSQLI_ASSOC);
-			return $arrFields['id_date_payment'];
-		}
-	}
-	
-	
 	$data = [];
 	$filename = "../../public/json_database/cardsPayments.json";
 	require 'config.php';
 	$currIdDatePayment = 0;
 	$totalSum = 0;
 	
-	$data['get'] = $_GET;
-	
 	$connect = new mysqli(BBR_DBSERVER, BBR_DBUSER, BBR_DBPASSWORD, BBR_DATABASE);
-
+	
 	if(isset($_GET['newRecord'])){
-		$id_date_payment = idDatePayment($_GET['newRecord']['date_payment']);
+		$id_date_payment = idDatePayment($connect, $_GET['newRecord']['date_payment']);
 	
 		$arrPaymentFields = [];
 		$arrPaymentValues = [];
@@ -46,12 +26,10 @@
 		$values = implode(',' , $arrPaymentValues);
 		$sql = "INSERT INTO payment ($fields) VALUES ($values);";
 		$connect->query($sql);
-		$data['get'] = $sql;
 	}
 
-/*
 	if(isset($_GET['editedRecord'])){
-		$id_date_payment = idDatePayment($_GET['editedRecord']['date_payment'])
+		$id_date_payment = idDatePayment($connect, $_GET['editedRecord']['date_payment']);
 		$id_payment = $_GET['editedRecord']['id_payment'];
 		$arrPaymentFields = [];
 		foreach($_GET['editedRecord'] as $field => $value) {
@@ -65,8 +43,6 @@
 		$sql = "UPDATE payment SET $set WHERE id_payment = $id_payment";
 		$connect->query($sql);
 	}
-*/
-
 
 	if(isset($_GET['deleteRecord'])){
 		$id_payment = $_GET['deleteRecord']['id_payment'];
@@ -141,3 +117,23 @@
 	$data = json_encode($data, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION); // без JSON_NUMERIC_CHECK будет из числового(5) - строковое("5") (см.  https://habr.com/ru/articles/483492/ )
 	file_put_contents($filename, $data);
 	echo $data;
+
+
+ 
+
+	function idDatePayment(&$connect, $date_payment) {
+		//$connect = new mysqli(BBR_DBSERVER, BBR_DBUSER, BBR_DBPASSWORD, BBR_DATABASE);
+		$sql = "SELECT id_date_payment FROM day_payment WHERE date_payment='$date_payment';";
+		$result = $connect->query($sql);
+		$count_rows = $result->num_rows;
+		if($count_rows == 0) {
+			$sql = "INSERT INTO day_payment (date_payment) VALUES ('$date_payment');";
+			$connect->query($sql);
+			return $connect->insert_id;
+		}
+		else {
+			$result->data_seek(0);
+			$arrFields = $result->fetch_array(MYSQLI_ASSOC);
+			return $arrFields['id_date_payment'];
+		}
+	}

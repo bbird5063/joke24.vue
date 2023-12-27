@@ -84,9 +84,6 @@ export const cardModule = {
 				let get = editedPayment ? {params: editedPayment} : null;
 				const response = await axios.get(url, get);
 				
-				console.log('----cardModule.js: response.data.get----');
-				console.log(response.data.get);
-				
 				commit('setCardsPayments', response.data.cardsPayments);
 				
 				console.log('----cardModule.js: state.cardsPayments----');
