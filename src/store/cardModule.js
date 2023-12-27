@@ -55,7 +55,7 @@ export const cardModule = {
 					} else {
 					url = '/php_modules/controller_cards.php';
 				}
-			let get = editedCard ? {params: editedCard} : null;
+				let get = editedCard ? {params: editedCard} : null;
 				const response = await axios.get(url, get);
 				commit('setCardsContent', response.data.cardsContent);
 				commit('setRate', response.data.rate);
@@ -72,7 +72,7 @@ export const cardModule = {
 			}
 		},
 		
-		async updatePayments({ state, commit }) {
+		async updatePayments({ state, commit }, editedPayment=null) {
 			try {
 				commit('setIsLoading', true);
 				let url;
@@ -81,7 +81,12 @@ export const cardModule = {
 					} else {
 					url = '/php_modules/controller_payments.php';
 				}
-				const response = await axios.get(url);
+				let get = editedPayment ? {params: editedPayment} : null;
+				const response = await axios.get(url, get);
+				
+				console.log('----cardModule.js: response.data.get----');
+				console.log(response.data.get);
+				
 				commit('setCardsPayments', response.data.cardsPayments);
 				
 				console.log('----cardModule.js: state.cardsPayments----');

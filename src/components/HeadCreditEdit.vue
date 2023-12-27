@@ -55,9 +55,9 @@
 				setIsLoading: 'card/setIsLoading',
 			}),
 			
-				...mapActions({
-				updateCards: 'card/updateCards'
-				}),
+			...mapActions({
+			updateCards: 'card/updateCards'
+			}),
 			
 			loadEditCard() {
 				this.updateCards({editedCard: this.cardsContent['card_' + this.idCurrentCard]});

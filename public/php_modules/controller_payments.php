@@ -1,11 +1,79 @@
 <?php
+	
+	function idDatePayment($date_payment) {
+		$connect = new mysqli(BBR_DBSERVER, BBR_DBUSER, BBR_DBPASSWORD, BBR_DATABASE);
+		$sql = "SELECT id_date_payment FROM day_payment WHERE date_payment='$date_payment';";
+		$result = $connect->query($sql);
+		$count_rows = $result->num_rows;
+		if($count_rows == 0) {
+			$sql = "INSERT INTO day_payment (date_payment) VALUES ('$date_payment');";
+			$connect->query($sql);
+			return $connect->insert_id;
+		}
+		else {
+			$result->data_seek(0);
+			$arrFields = $result->fetch_array(MYSQLI_ASSOC);
+			return $arrFields['id_date_payment'];
+		}
+	}
+	
+	
 	$data = [];
 	$filename = "../../public/json_database/cardsPayments.json";
 	require 'config.php';
 	$currIdDatePayment = 0;
 	$totalSum = 0;
 	
+	$data['get'] = $_GET;
+	
 	$connect = new mysqli(BBR_DBSERVER, BBR_DBUSER, BBR_DBPASSWORD, BBR_DATABASE);
+
+	if(isset($_GET['newRecord'])){
+		$id_date_payment = idDatePayment($_GET['newRecord']['date_payment']);
+	
+		$arrPaymentFields = [];
+		$arrPaymentValues = [];
+		foreach($_GET['newRecord'] as $field => $value) {
+			if($field!=='id_payment' && $field!=='id_date_payment' && $field!=='date_payment' && $field!=='name_type_payment'){
+				$arrPaymentFields[] = $field;
+				$arrPaymentValues[] = "'$value'";
+			}
+		}
+		$arrPaymentFields[] = 'id_date_payment';
+		$arrPaymentValues[] = "'$id_date_payment'";
+		
+		$fields = implode(',' , $arrPaymentFields);
+		$values = implode(',' , $arrPaymentValues);
+		$sql = "INSERT INTO payment ($fields) VALUES ($values);";
+		$connect->query($sql);
+		$data['get'] = $sql;
+	}
+
+/*
+	if(isset($_GET['editedRecord'])){
+		$id_date_payment = idDatePayment($_GET['editedRecord']['date_payment'])
+		$id_payment = $_GET['editedRecord']['id_payment'];
+		$arrPaymentFields = [];
+		foreach($_GET['editedRecord'] as $field => $value) {
+			if($field!=='id_payment' && $field!=='id_date_payment' && $field!=='date_payment' && $field!=='name_type_payment'){
+				$arrPaymentFields[] = "$field='$value'";
+			}
+		}
+		$arrPaymentFields[] = "id_date_payment='$id_date_payment'";
+		
+		$set = implode(',' , $arrPaymentFields);
+		$sql = "UPDATE payment SET $set WHERE id_payment = $id_payment";
+		$connect->query($sql);
+	}
+*/
+
+
+	if(isset($_GET['deleteRecord'])){
+		$id_payment = $_GET['deleteRecord']['id_payment'];
+		$sql = "DELETE FROM payment WHERE id_payment = $id_payment;";
+		$connect->query($sql);
+	}
+
 	
 	$resultCards = $connect->query("SELECT * FROM card;");
 	if ($resultCards) {
@@ -41,7 +109,6 @@
 						}
 						$currIdDatePayment = $arrFields['id_date_payment'];
 						$row_payment = array(
-						'save' 						=> false,
 						'id_date_payment' => $arrFields['id_date_payment'],
 						'date_payment' 		=> $arrFields['date_payment'],
 						'totalSum' 				=> 0,

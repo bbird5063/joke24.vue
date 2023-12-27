@@ -17,7 +17,7 @@
 						</div>
 						<div class="modal-body">
 							<form @submit.prevent v-if="newRecord && typePayment">
-								<input v-model="newRecord.newDate" name="newDate" type="date" class="form-control">
+								<input v-model="newRecord.date_payment" name="date_payment" type="date" class="form-control">
 								<input v-model="newRecord.time_payment" name="time_payment" type="time" class="form-control">
 								<div class="input-group">
 									<span class="input-group-text"> <!-- type_payment-->
@@ -37,7 +37,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-							<button type="button" class="btn btn-primary">Сохранить</button>
+							<button @click="saveRecord" type="button" class="btn btn-primary">Сохранить</button>
 						</div>
 					</div>
 				</div>
@@ -66,9 +66,9 @@
 						<div class="pay note">{{ row.purpPayment }}</div>
 						<div class="pay time">{{ row.time_payment.substring(0, 5) }}</div>
 						<div class="pay btn_pay">
-							<button @click="newRecord=row; newRecord.newDate=payDay.date_payment;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Редактировать"><i class="fa fa-pencil"></i></button>			
+							<button @click="newRecord=row; newRecord.date_payment=payDay.date_payment; newRecord.id_card=idCurrentCard;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Редактировать"><i class="fa fa-pencil"></i></button>			
 							<br>
-							<button @click="deleteRecond(row.id_payment)" type="button" class="btn btn-secondary btn_pay" title="Удалить"><i class="fa fa-close"></i></button>
+							<button @click="deleteRecond(row)" type="button" class="btn btn-secondary btn_pay" title="Удалить"><i class="fa fa-close"></i></button>
 						</div>
 					</div>
 				</div>
@@ -93,7 +93,6 @@
 		data() {
 			return {
 				cardVisible: true,
-				/*editPayment: null,*/
 				newRecord: null,
 				typePayment: null,
 			}
@@ -104,26 +103,23 @@
 				setIsLoading: 'card/setIsLoading',
 				setCardsPayments: 'card/setCardsPayments',
 			}),
+			...mapActions({
+				updatePayments: 'card/updatePayments'
+			}),
 			
 			addNewRecord() {
 				this.newRecord = {
 					id_payment: 0,
-					id_card: this.idCurrentCard,
-					newDate: '',
-					time_payment: '',
-					id_card: this.idCurrentCard,
 					id_type_payment: 0,
+					time_payment: '',
 					purpPayment: '',
-					sumPayment: 0,					
+					sumPayment: 0,
+					date_payment: '',
+					id_card: this.idCurrentCard,
 				};
 			},
 			
 			async readTypePayment() {
-				/*
-					const response = this.queryDb('controller_read_type.php', 'typePayment.json');
-					this.typePayment = response.data.typePayment;
-				*/
-				
 				try {
 					this.setIsLoading(true)
 					let url;
@@ -148,11 +144,24 @@
 				}
 			},
 			
-			deleteRecond(id_payment) {
+			deleteRecond(row) {
 				if(confirm('Вы действительно хотите удалить запись?')) {
-					alert('Удаляем...');
+					this.updatePayments({deleteRecord: row});
 				}
-			}
+			},
+			
+			saveRecord() {
+				//console.table(newRecord);
+				if(this.newRecord.id_payment){
+					this.updatePayments({editedRecord: this.newRecord});
+					console.table({editedRecord: this.newRecord});
+				}
+				else{
+					this.updatePayments({newRecord: this.newRecord});
+					console.table({newRecord: this.newRecord});
+				}
+				document.querySelector(".btn-close").dispatchEvent(new Event("click"));
+			},
 		},
 		
 		computed: {
@@ -172,7 +181,7 @@
 </script>
 
 <style scoped>
-
+	
 	/*
 	.addRecords {
 	width: 360px;
@@ -198,7 +207,7 @@
 	padding-left: 4px;
 	}
 	*/
-
+	
 	/*
 	.addRecords select {
 	height: 37.8px;
