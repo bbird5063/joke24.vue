@@ -15,24 +15,26 @@
 				</div>
 			</div>
 			
-			<div v-for="payDay in  cardsPayments['card_' + idCurrentCard]" :key="payDay.id_date_payment" class="payment_days">
-				<div class="pay day">{{ strInDate(payDay.date_payment) }}</div>
-				<div class="pay total">{{ numStrFormat(payDay.totalSum) + ' UAH&nbsp;&nbsp;' }}</div>
-				<div class="div_payments">
-					<div v-for="row in  payDay.payments" :key="row.id_payment" class="pay payments">
-						<div class="pay icon"><img class="img_icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
+			<div v-if="cardsPayments">
+				<div v-for="payDay in  cardsPayments['card_' + idCurrentCard]" :key="payDay.id_date_payment" class="payment_days">
+					<div class="pay day">{{ strInDate(payDay.date_payment) }}</div>
+					<div class="pay total">{{ numStrFormat(payDay.totalSum) + ' UAH&nbsp;&nbsp;' }}</div>
+					<div class="div_payments">
+						<div v-for="row in  payDay.payments" :key="row.id_payment" class="pay payments">
+							<div class="pay icon"><img class="img_icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
+							</div>
+							
+							<div class="pay type">{{ row.name_type_payment }}</div>
+							<div class="pay sum" :class="{ 'sum_green': row.sumPayment > 0 }">{{ numStrFormat(row.sumPayment) + ' UAH &nbsp;&nbsp;' }}</div>
+							<div class="pay note">{{ row.purpPayment }}</div>
+							<div class="pay time">{{ row.time_payment.substring(0, 5) }}</div>
 						</div>
-						
-						<div class="pay type">{{ row.name_type_payment }}</div>
-						<div class="pay sum" :class="{ 'sum_green': row.sumPayment > 0 }">{{ numStrFormat(row.sumPayment) + ' UAH &nbsp;&nbsp;' }}</div>
-						<div class="pay note">{{ row.purpPayment }}</div>
-						<div class="pay time">{{ row.time_payment.substring(0, 5) }}</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</template>
+	</template>
 
 <script>
 	import axios from 'axios';

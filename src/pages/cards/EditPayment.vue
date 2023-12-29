@@ -66,7 +66,7 @@
 						<div class="pay note">{{ row.purpPayment }}</div>
 						<div class="pay time">{{ row.time_payment.substring(0, 5) }}</div>
 						<div class="pay btn_pay">
-							<button @click="newRecord=row; newRecord.date_payment=payDay.date_payment; newRecord.id_card=idCurrentCard;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Редактировать"><i class="fa fa-pencil"></i></button>			
+							<button @click="editRecord(row, payDay.date_payment)" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Редактировать"><i class="fa fa-pencil"></i></button>			
 							<br>
 							<button @click="deleteRecond(row)" type="button" class="btn btn-secondary btn_pay" title="Удалить"><i class="fa fa-close"></i></button>
 						</div>
@@ -150,8 +150,19 @@
 				}
 			},
 			
+			editRecord(row, date_payment) {
+				this.newRecord = {
+					id_payment: row.id_payment,
+					id_type_payment: row.id_type_payment,
+					time_payment: row.time_payment,
+					purpPayment: row.purpPayment,
+					sumPayment: row.sumPayment,
+					date_payment: date_payment,
+					id_card: this.idCurrentCard,
+				};
+			},
+			
 			saveRecord() {
-				//console.table(newRecord);
 				if(this.newRecord.id_payment){
 					this.updatePayments({editedRecord: this.newRecord});
 					console.table({editedRecord: this.newRecord});
