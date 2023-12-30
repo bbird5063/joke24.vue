@@ -4,29 +4,33 @@
 			<head-credit-edit v-if="idCurrentCard == 1" :cardVisible="cardVisible"></head-credit-edit>
 			<head-payment-edit v-if="idCurrentCard > 1" :cardVisible="cardVisible"></head-payment-edit>
 			
-			<button @click="addNewRecord" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-				Добавить запись
+			<button @click="addNewRecord" style="margin-top: 5px; width: 360px;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				Добавить запись платежа
 			</button>			
 			
 			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-md"> <!-- xl lg md sm xs-->
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Редактирование</h5>
+							<h5 class="modal-title" id="exampleModalLabel">{{ titleModal }}</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
+							
 							<form @submit.prevent="saveRecord" v-if="newRecord && typePayment">
 								<p v-if="errors.length" class="alert alert-danger">
 									<b>Пожалуйста исправьте указанные ошибки:</b>
 									<ul>
 										<li v-for="error in errors">{{ error }}</li>
 									</ul>
-								</p>							
-								<input v-model="newRecord.date_payment" name="date_payment" type="date" class="form-control"  id="validationDefault01">
-								<input v-model="newRecord.time_payment" name="time_payment" type="time" class="form-control">
+								</p>
 								<div class="input-group">
-									<span class="input-group-text"> <!-- type_payment-->
+									<input style="width: 160px;" id="date_payment" v-model="newRecord.date_payment" name="date_payment" type="date" class="form-control">
+									<label style="margin-left: 20px;" for="date_payment">{{ strDate }}</label>
+								</div>
+								<input style="width: 100px;" v-model="newRecord.time_payment" name="time_payment" type="time" class="form-control">
+								<div class="input-group">
+									<span style="width: 40px;" class="input-group-text"> <!-- type_payment-->
 										<img v-if="newRecord.id_type_payment>0" class="img_select" :src="'/img/icons/' + newRecord.id_type_payment + '.png'">
 									</span>	
 									<select v-model="newRecord.id_type_payment" class="form-select form-select-sm" style="height: 37.8px;"  name="id_type_payment" aria-label=".form-select-sm example">
@@ -35,12 +39,12 @@
 											{{ type.name_type_payment }}
 										</option>
 									</select>
-								</div>
-								<textarea v-model="newRecord.purpPayment" name="purpPayment" class="form-control" rows="3"></textarea>
-								<input v-model="newRecord.sumPayment" name="sumPayment" type="text" class="form-control" style="text-align:right;">
+									</div>
+									<textarea v-model="newRecord.purpPayment" name="purpPayment" class="form-control" rows="3" placeholder="Описание платежа"></textarea>
+									<input v-model="newRecord.sumPayment" name="sumPayment" type="text" class="form-control" style="text-align:right;" placeholder="Сумма платежа">
 								
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
 								<button type="submit" class="btn btn-primary">Сохранить</button>
+								<button style="margin-left: 2px" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
 							</form>
 							
 						</div>
@@ -99,11 +103,13 @@
 		},
 		data() {
 			return {
+				titleModal: 'Новая запись',
 				cardVisible: true,
 				newRecord: null,
 				typePayment: null,
 				errors: [],
 				lastDate: '',
+				strDate: '',
 			}
 		},
 		
@@ -115,18 +121,6 @@
 			...mapActions({
 				updatePayments: 'card/updatePayments'
 			}),
-			
-			addNewRecord() {
-				this.newRecord = {
-					id_payment: 0,
-					id_type_payment: 0,
-					time_payment: '',
-					purpPayment: '',
-					sumPayment: 0,
-					date_payment: this.lastDate,
-					id_card: this.idCurrentCard,
-				};
-			},
 			
 			async readTypePayment() {
 				try {
@@ -153,13 +147,23 @@
 				}
 			},
 			
-			deleteRecond(row) {
-				if(confirm('Вы действительно хотите удалить запись?')) {
-					this.updatePayments({deleteRecord: row});
-				}
+			addNewRecord() {
+				this.titleModal = 'Новая запись';
+				this.strDate = '';
+				this.newRecord = {
+					id_payment: 0,
+					id_type_payment: 0,
+					time_payment: '',
+					purpPayment: '',
+					sumPayment: '',
+					date_payment: this.lastDate,
+					id_card: this.idCurrentCard,
+				};
 			},
 			
 			editRecord(row, date_payment) {
+				this.titleModal = 'Редактирование записи';
+				this.strDate = '';
 				this.newRecord = {
 					id_payment: row.id_payment,
 					id_type_payment: row.id_type_payment,
@@ -179,9 +183,9 @@
 				if (!this.newRecord.time_payment) {
 					this.errors.push('Введите время платежа.');
 				}				
-				if (!this.newRecord.id_type_payment) {
+				/*if (!this.newRecord.id_type_payment) {
 					this.errors.push('Введите тип платежа.');
-				}				
+				}*/
 				if (!this.newRecord.purpPayment) {
 					this.errors.push('Введите описание платежа.');
 				}				
@@ -205,6 +209,23 @@
 					document.querySelector(".btn-close").dispatchEvent(new Event("click"));
 				}
 			},
+			
+			deleteRecond(row) {
+				if(confirm('Вы действительно хотите удалить запись?')) {
+					this.updatePayments({deleteRecord: row});
+				}
+			},
+		},
+		
+		watch: {
+			newRecord: {
+				handler(val) {
+					if(this.validate_date(val.date_payment)) {
+						this.strDate = this.strInDate(val.date_payment, true);
+					}
+				},
+				deep: true,
+			},
 		},
 		
 		computed: {
@@ -225,37 +246,10 @@
 
 <style scoped>
 	
-	/*
-	.addRecords {
-	width: 360px;
-	margin-top: 20px;
-	margin-bottom: 10px;
-	background-color: #212121;
-	}
-	.addRecords input, .addRecords select, .addRecords textarea , .addRecords button  {
-	margin-bottom: 5px;
-	}
-	*/
-	
 	img.img_select {
 	width: 22px;
 	height: 22px;
 	}
-	
-	/*
-	.type_payment {
-	width: 40px;
-	height: 37.8px;
-	padding: 0;
-	padding-left: 4px;
-	}
-	*/
-	
-	/*
-	.addRecords select {
-	height: 37.8px;
-	}
-	*/
 	
 	img.icon {
 	width: 30px;

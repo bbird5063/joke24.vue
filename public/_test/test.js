@@ -43,3 +43,31 @@ console.log(log);
 log2 = sourceTree.childTable['child' + key].nameField;
 console.log(log2);
 */
+
+function validate_date0(value)
+{
+var arrD = value.split(".");
+arrD[1] -= 1;
+var d = new Date(arrD[2], arrD[1], arrD[0]);
+if ((d.getFullYear() == arrD[2]) && (d.getMonth() == arrD[1]) && (d.getDate() == arrD[0])) {
+return true;
+} else {
+//alert("Введена некорректная дата!");
+return false;
+}
+}
+
+function validate_date(value)
+{
+var arrD = value.split("-");
+arrD[1] -= 1;
+var d = new Date(arrD[0], arrD[1], arrD[2]);
+if ((d.getFullYear() == arrD[0]) && (d.getMonth() == arrD[1]) && (d.getDate() == arrD[2])) {
+return true;
+} else {
+//alert("Введена некорректная дата!");
+return false;
+}
+}
+let strDate = '1900-2-22';
+console.log(validate_date(strDate));

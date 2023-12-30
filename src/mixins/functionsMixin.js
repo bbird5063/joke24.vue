@@ -6,20 +6,32 @@ export default {
 			return num.toLocaleString('ru-RU', { style: 'currency', currency: 'USD' }).replace(',', '.').replace('$', '').trim();
 		},
 		
-		strInDate(strDate) {
+		strInDate(strDate, year=false) {
 			strDate = new Date(strDate.replace(/(\d+)-(\d+)-(\d+)/, '$1/$2/$3'));
 			strDate = strDate.toLocaleDateString('uk-UA', { weekday: "long", year: "numeric", month: "long", day: "numeric" });
-			return strDate.substring(0, strDate.length - 3); // удаляем ' p.'
+			return year ? strDate : strDate.substring(0, strDate.length - 3); // удаляем ' p.'
 		},
 		
 		hideNumCard(numberCard) {
 			let arrNum = numberCard.split(' ');
 			return arrNum[0] + ' **** **** ' + arrNum[3];
 		},
-
+		
 		isNumeric(n) {
 			return !isNaN(parseFloat(n)) && isFinite(n);
 		},
+		
+		validate_date(value) {
+			var arrD = value.split("-");
+			arrD[1] -= 1;
+			var d = new Date(arrD[0], arrD[1], arrD[2]);
+			if ((d.getFullYear() == arrD[0]) && (d.getMonth() == arrD[1]) && (d.getDate() == arrD[2])) {
+				return true;
+			} 
+			else {
+				return false;
+			}
+		},		
 		
 		async queryDb(filePhp, fileJson, get=null) {
 			try {
@@ -29,7 +41,7 @@ export default {
 					url = '/json_database/' + fileJson;
 				} 
 				else {
-					url = '/php_modules/' + filePhp;
+				url = '/php_modules/' + filePhp;
 				}
 				
 				const response = await axios.get(url, get);
