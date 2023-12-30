@@ -2,7 +2,7 @@
 	<div v-if="cardsContent && rate" class="root">
 		<div class="screenshot-1">
 			<div id="scr_1">
-				<div style="padding-right: 18px;padding-top: 10px;">{{ rate.buyRate }}</div>
+				<div style="padding-right: 18px; padding-top: 10px;">{{ rate.buyRate }}</div>
 				<div style="padding-left: 0;padding-top: 10px;">{{ rate.sellRate }}</div>
 				<div style="padding-right: 5px;padding-top: 10px;"></div>
 			</div>

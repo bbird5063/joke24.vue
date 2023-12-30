@@ -15,6 +15,18 @@
 		$sql = "UPDATE card SET $set WHERE id_card = $id_card";
 		$connect->query($sql);
 	}
+
+	if(isset($_GET['editedCourses'])){
+		$arrRateFields = [];
+		foreach($_GET['editedCourses'] as $field => $value) {
+			$arrRateFields[] = "$field='$value'";
+		}
+		$set = implode(',' , $arrRateFields);
+		$sql = "UPDATE rate SET $set WHERE id_rate = 1";
+		$connect->query($sql);
+	}
+
+	
 	
 	$sql = "SELECT * FROM card;";
 	$result = $connect->query($sql);

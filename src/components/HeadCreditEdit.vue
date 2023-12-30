@@ -1,17 +1,26 @@
 <template>
 	<div>
 		<div v-if="cardsContent" class="root">
-			<!--div v-show="!cardVisible" class="cardHeader">
-				<div @click="$router.push('/CardHome')" class="item item_1"></div>
-				<div class="item item_2"></div>
-				<div class="item item_3"></div>
-				<div class="item item_4"></div>
-			</div-->
+			<div v-if="rate" class="screenshot-1">
+				<div class="scr menu"></div>
+				<div class="scr buyRate">
+					<input v-model="rate.buyRate" name="buyRate" type="text" class="form-control" style="text-align:right; width:78px;" title="Курс покупки">
+				</div>
+				<div class="scr sellRate">
+					<input v-model="rate.sellRate" name="sellRate" type="text" class="form-control" style="text-align:left;" title="Курс продажи">
+				</div>
+				
+				<div class="scr bell"></div>
+				<div class="scr phone"></div>
+			</div>
+			<button @click="loadEditedCourses" style="margin-top: 5px; width: 360px;" type="button" class="btn btn-success">
+				Сохранить курсы
+			</button>			
 			<div v-show="cardVisible" class="card">
 				<div @click="$router.push('/CardHome')" class="item item_1"></div>
 				<div class="item item_2"></div>
 				<div class="item item_3"></div>
-				<div @click="loadEditCard" class="item item_4"></div>
+				<div class="item item_4"></div>
 				<div class="item item_5"></div>
 				<div class="item item_6"><input v-model="cardsContent['card_' + this.idCurrentCard].numberCard" name="numberCard" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
 				<div class="item item_7"><input v-model="cardsContent['card_' + this.idCurrentCard].periodCard" name="periodCard" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
@@ -26,6 +35,9 @@
 				<div class="item item_16"><input v-model="cardsContent['card_' + this.idCurrentCard].minSumCard" name="minSumCard" style="text-align:right" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></div>
 				<div class="item item_17"></div>
 			</div>
+			<button @click="loadEditedCard" style="margin-top: 5px; width: 360px;" type="button" class="btn btn-success">
+				Сохранить данные карты
+			</button>			
 		</div>
 	</div>
 </template>
@@ -59,9 +71,13 @@
 			updateCards: 'card/updateCards'
 			}),
 			
-			loadEditCard() {
+			loadEditedCard() {
 				this.updateCards({editedCard: this.cardsContent['card_' + this.idCurrentCard]});
 			},
+			
+			loadEditedCourses() {
+				this.updateCards({editedCourses: this.rate});
+			}
 		},
 		
 		computed: {
@@ -69,6 +85,7 @@
 				cardsContent: state => state.card.cardsContent,
 				idCurrentCard: state => state.card.idCurrentCard,
 				isLocalhost: state => state.card.isLocalhost,
+				rate: state => state.card.rate,
 			}),
 		},
 		
@@ -85,11 +102,65 @@
 	height: 100%;
 	background-color: #212121;
 	}
+
+	.screenshot-1 {
+	width: 360px;
+	display: grid;
+	grid-template-areas:
+	'menu menu buyRate buyRate sellRate sellRate bell phone';
 	
+	grid-gap: 5px;
+	grid-template-columns: repeat(8, 1fr);
+	grid-auto-rows: 40px;
+	
+	/*background-color: #212121;*/
+	
+	/*Встраиваем с сохр.пропорций:cover-обрезает, contain-не обрезает*/
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-image: url('~@/assets/img/cards/Screenshot_1.jpg');
+	height: 40px;
+	}
+	
+	.scr {
+		/*border: 1px solid grey;*/
+	}
+	
+	.menu {
+		grid-area: menu;
+	}
+	
+	.buyRate {
+		grid-area: buyRate;
+	}
+
+	.sellRate {
+		grid-area: sellRate;
+	}
+
+	.bell {
+		grid-area: bell;
+	}
+
+	.phone {
+		grid-area: phone ;
+	}
+	
+	.buyRate>input, .sellRate>input {
+		border: 0;
+		background: transparent;
+		color: grey;
+		padding-top: 9px;
+	}
+	
+	
+
+
 	.card,
 	.cardHeader {
 	width: 360px;
 	color: white;
+	margin-top: 5px;
 	}
 	
 	.cardHeader {

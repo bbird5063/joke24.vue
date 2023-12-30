@@ -5,7 +5,7 @@
 			<head-payment-edit v-if="idCurrentCard > 1" :cardVisible="cardVisible"></head-payment-edit>
 			
 			<button @click="addNewRecord" style="margin-top: 5px; width: 360px;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-				Добавить запись платежа
+				Добавить новый платеж
 			</button>			
 			
 			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -39,11 +39,11 @@
 											{{ type.name_type_payment }}
 										</option>
 									</select>
-									</div>
-									<textarea v-model="newRecord.purpPayment" name="purpPayment" class="form-control" rows="3" placeholder="Описание платежа"></textarea>
-									<input v-model="newRecord.sumPayment" name="sumPayment" type="text" class="form-control" style="text-align:right;" placeholder="Сумма платежа">
+								</div>
+								<textarea v-model="newRecord.purpPayment" name="purpPayment" class="form-control" rows="3" placeholder="Описание платежа"></textarea>
+								<input v-model="newRecord.sumPayment" name="sumPayment" type="text" class="form-control" style="text-align:right;" placeholder="Сумма платежа">
 								
-								<button type="submit" class="btn btn-primary">Сохранить</button>
+								<button type="submit" class="btn btn-success">Сохранить</button>
 								<button style="margin-left: 2px" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
 							</form>
 							
@@ -245,7 +245,7 @@
 </script>
 
 <style scoped>
-	
+
 	img.img_select {
 	width: 22px;
 	height: 22px;
