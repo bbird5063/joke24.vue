@@ -10,7 +10,7 @@
 
 	if(isset($_GET['newRecord'])){
 		$id_date_payment = idDatePayment($connect, $_GET['newRecord']['date_payment']);
-		
+		/*
 		$arrPaymentFields = [];
 		$arrPaymentValues = [];
 		foreach($_GET['newRecord'] as $field => $value) {
@@ -25,7 +25,7 @@
 		$fields = implode(',' , $arrPaymentFields);
 		$values = implode(',' , $arrPaymentValues);
 		$sql = "INSERT INTO payment ($fields) VALUES ($values);";
-		
+		*/
 		
 		$sql = "
 		INSERT INTO `payment` (`id_date_payment`, `id_card`, `id_type_payment`, `time_payment`, `purpPayment`, `sumPayment`) VALUES ( 
@@ -43,7 +43,7 @@
 		$id_date_payment = idDatePayment($connect, $_GET['editedRecord']['date_payment']);
 		$id_payment = $_GET['editedRecord']['id_payment'];
 		
-		
+		/*
 		$arrPaymentFields = [];
 		foreach($_GET['editedRecord'] as $field => $value) {
 			if($field!=='id_payment' && $field!=='id_date_payment' && $field!=='date_payment' && $field!=='name_type_payment'){
@@ -54,7 +54,7 @@
 		
 		$set = implode(',' , $arrPaymentFields);
 		$sql = "UPDATE payment SET $set WHERE id_payment = $id_payment";
-		
+		*/
 		
 		$sql = "UPDATE `payment` SET " . 
 		"`id_date_payment`='$id_date_payment'," . 

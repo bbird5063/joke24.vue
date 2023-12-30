@@ -16,6 +16,10 @@ export default {
 			let arrNum = numberCard.split(' ');
 			return arrNum[0] + ' **** **** ' + arrNum[3];
 		},
+
+		isNumeric(n) {
+			return !isNaN(parseFloat(n)) && isFinite(n);
+		},
 		
 		async queryDb(filePhp, fileJson, get=null) {
 			try {

@@ -16,8 +16,14 @@
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
-							<form @submit.prevent v-if="newRecord && typePayment">
-								<input v-model="newRecord.date_payment" name="date_payment" type="date" class="form-control">
+							<form @submit.prevent="saveRecord" v-if="newRecord && typePayment">
+								<p v-if="errors.length" class="alert alert-danger">
+									<b>Пожалуйста исправьте указанные ошибки:</b>
+									<ul>
+										<li v-for="error in errors">{{ error }}</li>
+									</ul>
+								</p>							
+								<input v-model="newRecord.date_payment" name="date_payment" type="date" class="form-control"  id="validationDefault01">
 								<input v-model="newRecord.time_payment" name="time_payment" type="time" class="form-control">
 								<div class="input-group">
 									<span class="input-group-text"> <!-- type_payment-->
@@ -32,12 +38,13 @@
 								</div>
 								<textarea v-model="newRecord.purpPayment" name="purpPayment" class="form-control" rows="3"></textarea>
 								<input v-model="newRecord.sumPayment" name="sumPayment" type="text" class="form-control" style="text-align:right;">
+								
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+								<button type="submit" class="btn btn-primary">Сохранить</button>
 							</form>
 							
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-							<button @click="saveRecord" type="button" class="btn btn-primary">Сохранить</button>
 						</div>
 					</div>
 				</div>
@@ -95,6 +102,8 @@
 				cardVisible: true,
 				newRecord: null,
 				typePayment: null,
+				errors: [],
+				lastDate: '',
 			}
 		},
 		
@@ -114,7 +123,7 @@
 					time_payment: '',
 					purpPayment: '',
 					sumPayment: 0,
-					date_payment: '',
+					date_payment: this.lastDate,
 					id_card: this.idCurrentCard,
 				};
 			},
@@ -162,16 +171,39 @@
 				};
 			},
 			
-			saveRecord() {
-				if(this.newRecord.id_payment){
-					this.updatePayments({editedRecord: this.newRecord});
-					console.table({editedRecord: this.newRecord});
+			saveRecord(formElems) {
+				this.errors = [];
+				if (!this.newRecord.date_payment) {
+					this.errors.push('Введите дату платежа.');
+				}				
+				if (!this.newRecord.time_payment) {
+					this.errors.push('Введите время платежа.');
+				}				
+				if (!this.newRecord.id_type_payment) {
+					this.errors.push('Введите тип платежа.');
+				}				
+				if (!this.newRecord.purpPayment) {
+					this.errors.push('Введите описание платежа.');
+				}				
+				if (!this.newRecord.sumPayment) {
+					this.errors.push('Введите сумму платежа.');
 				}
-				else{
-					this.updatePayments({newRecord: this.newRecord});
-					console.table({newRecord: this.newRecord});
+				else if(!this.isNumeric(this.newRecord.sumPayment)) {
+					this.errors.push('Введите в поле "сумма платежа" корректное значение "xxx.xx".');
+				}	
+				
+				if(!this.errors.length) {
+					if(this.newRecord.id_payment){
+						this.updatePayments({editedRecord: this.newRecord});
+						console.table({editedRecord: this.newRecord});
+					}
+					else{
+						this.lastDate = this.newRecord.date_payment;
+						this.updatePayments({newRecord: this.newRecord});
+						console.table({newRecord: this.newRecord});
+					}
+					document.querySelector(".btn-close").dispatchEvent(new Event("click"));
 				}
-				document.querySelector(".btn-close").dispatchEvent(new Event("click"));
 			},
 		},
 		
