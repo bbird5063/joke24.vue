@@ -2,7 +2,8 @@
 	<div>
 		<div v-if="cardsContent && cardsPayments" class="root">
 			<head-credit-edit v-if="idCurrentCard == 1" :cardVisible="cardVisible"></head-credit-edit>
-			<head-payment-edit v-if="idCurrentCard > 1" :cardVisible="cardVisible"></head-payment-edit>
+			<head-payment-edit v-if="idCurrentCard == 2" :cardVisible="cardVisible"></head-payment-edit>
+			<head-help-edit v-if="idCurrentCard == 3" :cardVisible="cardVisible"></head-help-edit>
 			
 			<button @click="addNewRecord" style="margin-top: 5px; width: 360px;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 				Добавить новый платеж
@@ -94,12 +95,14 @@
 	import functionsMixin from "@/mixins/functionsMixin";
 	import HeadCreditEdit from "@/components/HeadCreditEdit";
 	import HeadPaymentEdit from "@/components/HeadPaymentEdit";
+	import HeadHelpEdit from "@/components/HeadHelpEdit";
 	
 	export default {
 		mixins: [functionsMixin],
 		components: {
 			HeadCreditEdit,
 			HeadPaymentEdit,
+			HeadHelpEdit,
 		},
 		data() {
 			return {
@@ -380,26 +383,4 @@
 	font-size: 18px;
 	}
 	
-	
-	
-	.spab-item {
-	display: inline-block;
-	margin-right: 10px;
-	}
-	
-	.spab-enter-active,
-	.spab-leave-active {
-	/*transition: all 0.4s ease;*/
-	transition: all 0.9 s ease;
-	}
-	
-	.spab-enter-from,
-	.spab-leave-to {
-	opacity: 0;
-	transform: translateY(130px);
-	}
-	
-	.spab-move {
-	transition: transform 0.4s ease;
-	}
-</style>
+	</style>

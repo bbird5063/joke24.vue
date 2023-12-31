@@ -186,26 +186,4 @@
 	font-size: 18px;
 	}
 	
-	
-	
-	.spab-item {
-	display: inline-block;
-	margin-right: 10px;
-	}
-	
-	.spab-enter-active,
-	.spab-leave-active {
-	/*transition: all 0.4s ease;*/
-	transition: all 0.9 s ease;
-	}
-	
-	.spab-enter-from,
-	.spab-leave-to {
-	opacity: 0;
-	transform: translateY(130px);
-	}
-	
-	.spab-move {
-	transition: transform 0.4s ease;
-	}
-</style>
+	</style>

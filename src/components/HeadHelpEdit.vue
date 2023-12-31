@@ -152,7 +152,7 @@
 	.card,
 	.cardHeader {
 	width: 360px;
-	color: white;
+	color: black;
 	margin-top: 5px;
 	}
 	
@@ -162,7 +162,7 @@
 	grid-template-columns: repeat(6, 1fr);
 	grid-auto-rows: 46px;
 	grid-column-gap: 0;
-	background-image: url('~@/assets/img/cards/cardPayment.jpg');
+	background-image: url('~@/assets/img/cards/cardHelp.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
 	
@@ -182,7 +182,7 @@
 	grid-template-rows: 46px 45px 30px 48px 38px;
 	grid-column-gap: 0;
 	
-	background-image: url('~@/assets/img/cards/cardPayment.jpg');
+	background-image: url('~@/assets/img/cards/cardHelp.jpg');
 	/* cover/contain */
 	background-size: cover;
 	background-position: center;
@@ -194,13 +194,13 @@
 	
 	input {
 	background: transparent;
-	color: #cfcece;
+	color: #403f3f;
 	font-size: 1rem;
 	}	
 	
 	input:focus {
 	background: transparent;
-	color: #dfdbdb;
+	color: #0b0b0b;
 	font-size: 1rem;
 	}	
 	
