@@ -4,7 +4,6 @@
 			<head-credit v-if="idCurrentCard == 1" :cardVisible="cardVisible"></head-credit>
 			<head-payment v-if="idCurrentCard > 1" :cardVisible="cardVisible"></head-payment>
 			
-			
 			<div class="listPayment">
 				<div @click="cardVisible = !cardVisible" style="text-align:center;">
 					<div v-if="isLoading">
@@ -89,7 +88,6 @@
 	.payment_days {
 	width: 360px;
 	}
-	
 	
 	
 	.fa-chevron-right {

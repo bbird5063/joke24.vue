@@ -145,8 +145,6 @@
 		color: grey;
 		padding-top: 9px;
 	}
-	
-	
 
 
 	.card,
@@ -162,7 +160,7 @@
 	grid-template-columns: repeat(6, 1fr);
 	grid-auto-rows: 46px;
 	grid-column-gap: 0;
-	background-image: url('~@/assets/img/cards/cardPayment.jpg');
+	background-image: url('~@/assets/img/cards/cardPayment_Edit.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
 	
@@ -182,7 +180,7 @@
 	grid-template-rows: 46px 45px 30px 48px 38px;
 	grid-column-gap: 0;
 	
-	background-image: url('~@/assets/img/cards/cardPayment.jpg');
+	background-image: url('~@/assets/img/cards/cardPayment_Edit.jpg');
 	/* cover/contain */
 	background-size: cover;
 	background-position: center;
