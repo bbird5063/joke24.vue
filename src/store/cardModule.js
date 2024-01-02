@@ -6,9 +6,10 @@ export const cardModule = {
 		cardsContent:  null,
 		cardsPayments: null,
 		rate:					 null,
+		datalist:			 null,
 		idCurrentCard: 1,
 		isMenuVisible: false,
-		isLoading: false,
+		isLoading: 		 false,
 	}),
 	
 	mutations: {
@@ -32,6 +33,9 @@ export const cardModule = {
 		},
 		setRate(state, rate) {
 			state.rate = rate;
+		},
+		setDatalist(state, datalist) {
+			state.datalist = datalist;
 		},
 		setIdCurrentCard(state, idCurrentCard) {
 			state.idCurrentCard = idCurrentCard;
@@ -88,6 +92,29 @@ export const cardModule = {
 				
 				console.log('----cardModule.js: state.cardsPayments----');
 				console.log(state.cardsPayments);
+				} catch (e) {
+				alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
+				} finally {
+				commit('setIsLoading', false);
+			}
+		},
+		
+		async updateDatalist({ state, commit }, editedDatalist=null) {
+			try {
+				commit('setIsLoading', true);
+				let url;
+				if (state.isLocalhost) {
+					url = '/json_database/cardsDatalist.json';
+					} else {
+					url = '/php_modules/controller_datalist.php';
+				}
+				let get = editedDatalist ? {params: editedDatalist} : null;
+				const response = await axios.get(url, get);
+				
+				commit('setDatalist', response.data.datalist);
+				
+				console.log('----cardModule.js: state.datalist----');
+				console.log(state.datalist);
 				} catch (e) {
 				alert('Ошибка ' + e.name + ':' + e.message + '\n' + e.stack);
 				} finally {

@@ -51,7 +51,7 @@
 		data() {
 			return {
 				isLoading: false,
-				editCard: null,
+				/*editCard: null,*/
 			}
 		},
 		
@@ -64,13 +64,13 @@
 			updateCards: 'card/updateCards'
 			}),
 			
+			loadEditedCourses() {
+				this.updateCards({editedCourses: this.rate});
+			},
+			
 			loadEditedCard() {
 				this.updateCards({editedCard: this.cardsContent['card_' + this.idCurrentCard]});
 			},
-			
-			loadEditedCourses() {
-				this.updateCards({editedCourses: this.rate});
-			}
 		},
 		
 		computed: {

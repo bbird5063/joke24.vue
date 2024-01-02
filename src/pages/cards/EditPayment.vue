@@ -202,12 +202,10 @@
 				if(!this.errors.length) {
 					if(this.newRecord.id_payment){
 						this.updatePayments({editedRecord: this.newRecord});
-						console.table({editedRecord: this.newRecord});
 					}
 					else{
 						this.lastDate = this.newRecord.date_payment;
 						this.updatePayments({newRecord: this.newRecord});
-						console.table({newRecord: this.newRecord});
 					}
 					document.querySelector(".btn-close").dispatchEvent(new Event("click"));
 				}

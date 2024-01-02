@@ -1,6 +1,14 @@
 <template>
 	<div>
 		<div v-if="cardsContent" class="root">
+			
+			<p v-if="errorsCourses.length" style="margin-top:5px; width:360px;" class="alert alert-danger">
+				<b>Пожалуйста исправьте указанные ошибки:</b>
+				<ul>
+					<li v-for="errorCourse in errorsCourses">{{ errorCourse }}</li>
+				</ul>
+			</p>
+			
 			<div v-if="rate" class="screenshot-1">
 				<div class="scr menu"></div>
 				<div class="scr buyRate">
@@ -15,7 +23,15 @@
 			</div>
 			<button @click="loadEditedCourses" style="margin-top: 5px; width: 360px;" type="button" class="btn btn-success">
 				Сохранить курсы
-			</button>			
+			</button>	
+			
+			<p v-if="errorsCard.length" style="margin-top:5px; width:360px;" class="alert alert-danger">
+				<b>Пожалуйста исправьте указанные ошибки:</b>
+				<ul>
+					<li v-for="error in errorsCard">{{ error }}</li>
+				</ul>
+			</p>
+			
 			<div v-show="cardVisible" class="card">
 				<div @click="$router.push('/CardHome')" class="item item_1"></div>
 				<div class="item item_2"></div>
@@ -58,7 +74,9 @@
 		data() {
 			return {
 				isLoading: false,
-				editCard: null,
+				errorsCourses: [],
+				errorsCard: [],
+				/*editCard: null,*/
 			}
 		},
 		
@@ -68,16 +86,43 @@
 			}),
 			
 			...mapActions({
-			updateCards: 'card/updateCards'
+				updateCards: 'card/updateCards'
 			}),
 			
-			loadEditedCard() {
-				this.updateCards({editedCard: this.cardsContent['card_' + this.idCurrentCard]});
+			loadEditedCourses() {
+				this.errorsCourses = [];
+				if (!this.rate.buyRate) {
+					this.errorsCourses.push('Введите курс покупки;');
+				}
+				else if(!this.isNumeric(this.rate.buyRate)) {
+					this.errorsCourses.push('Введите в поле "курс покупки" корректное значение "xx.xx";');
+				}	
+				if (!this.rate.sellRate) {
+					this.errorsCourses.push('Введите курс продажи;');
+				}
+				else if(!this.isNumeric(this.rate.sellRate)) {
+					this.errorsCourses.push('Введите в поле "курс  продажи" корректное значение "xx.xx";');
+				}	
+				
+				if(!this.errorsCourses.length) {
+					this.updateCards({editedCourses: this.rate});
+				}
 			},
 			
-			loadEditedCourses() {
-				this.updateCards({editedCourses: this.rate});
-			}
+			loadEditedCard() {
+				this.errorsCard = [];
+				
+				if (!this.cardsContent['card_' + this.idCurrentCard].cvv2) {
+					this.errorsCard.push('Введите CVV2;');
+				}
+				else if(!this.isNumeric(this.cardsContent['card_' + this.idCurrentCard].cvv2) || this.cardsContent['card_' + this.idCurrentCard].cvv2.length !== 3) {
+					this.errorsCard.push('Введите в поле "CVV2" корректное значение "xxx";');
+				}
+				
+				if(!this.errorsCard.length) {
+					this.updateCards({editedCard: this.cardsContent['card_' + this.idCurrentCard]});
+				}
+			},
 		},
 		
 		computed: {
@@ -102,7 +147,7 @@
 	height: 100%;
 	background-color: #212121;
 	}
-
+	
 	.screenshot-1 {
 	width: 360px;
 	display: grid;
@@ -123,39 +168,39 @@
 	}
 	
 	.scr {
-		/*border: 1px solid grey;*/
+	/*border: 1px solid grey;*/
 	}
 	
 	.menu {
-		grid-area: menu;
+	grid-area: menu;
 	}
 	
 	.buyRate {
-		grid-area: buyRate;
+	grid-area: buyRate;
 	}
-
+	
 	.sellRate {
-		grid-area: sellRate;
+	grid-area: sellRate;
 	}
-
+	
 	.bell {
-		grid-area: bell;
+	grid-area: bell;
 	}
-
+	
 	.phone {
-		grid-area: phone ;
+	grid-area: phone ;
 	}
 	
 	.buyRate>input, .sellRate>input {
-		border: 0;
-		background: transparent;
-		color: grey;
-		padding-top: 9px;
+	border: 0;
+	background: transparent;
+	color: grey;
+	padding-top: 9px;
 	}
 	
 	
-
-
+	
+	
 	.card,
 	.cardHeader {
 	width: 360px;
@@ -319,4 +364,4 @@
 	padding-top: 5px;
 	}
 	
-	</style>
+</style>
