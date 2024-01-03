@@ -14,7 +14,9 @@ export default {
 	mounted() {
 		this.$store.dispatch('card/updateCards');
 		this.$store.dispatch('card/updatePayments');
-		this.$store.dispatch('card/updateDatalist');
+		if (this.$store.state.card.isMenuVisible) {
+			this.$store.dispatch('card/updateDatalist');
+		}
 	},
 };
 </script>

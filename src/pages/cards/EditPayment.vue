@@ -30,27 +30,39 @@
 									<label style="margin-left: 20px;" for="date_payment">{{ strDate }}</label>
 								</div>
 								<input style="width: 100px;" v-model="newRecord.time_payment" name="time_payment" type="time" class="form-control">
+
 								<div class="input-group">
-									<span style="width: 40px;" class="input-group-text"> <!-- type_payment-->
+									<select v-model="tempId" class="form-select form-select-sm" style="height: 37.8px"  name="id_type_payment">
+										<option value="0" selected>--- Выберите шаблон ---</option>
+										<option v-for="option in datalist['card_' + idCurrentCard]" :value="option.id_payment" :key="option.id_payment">
+											{{ option.purpPaymentShort }}
+										</option>
+									</select>
+									<button @click="copyTemplate()" type="button" class="btn btn-primary" title="Применить шаблон"><i class="fa fa-clone"></i></button>															
+								</div>
+								
+								<div class="input-group">
+									<span style="width: 40px;" class="input-group-text">
 										<img v-if="newRecord.id_type_payment>0" class="img_select" :src="'/img/icons/' + newRecord.id_type_payment + '.png'">
 									</span>	
-									<select v-model="newRecord.id_type_payment" class="form-select form-select-sm" style="height: 37.8px;"  name="id_type_payment" aria-label=".form-select-sm example">
+									<select v-model="newRecord.id_type_payment" class="form-select form-select-sm" style="height: 37.8px"  name="id_type_payment">
 										<option value="0" selected>--- Тип платежа ---</option>
 										<option v-for="type in typePayment" :key="type.id_type_payment" :value="type.id_type_payment">
 											{{ type.name_type_payment }}
 										</option>
 									</select>
 								</div>
+
 								<textarea v-model="newRecord.purpPayment" name="purpPayment" class="form-control" rows="3" placeholder="Описание платежа"></textarea>
 								<input v-model="newRecord.sumPayment" name="sumPayment" type="text" class="form-control" style="text-align:right;" placeholder="Сумма платежа">
 								
 								<button type="submit" class="btn btn-success">Сохранить</button>
 								<button style="margin-left: 2px" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-							</form>
-							
-						</div>
-						<div class="modal-footer">
-						</div>
+								</form>
+								
+								</div>
+								<div class="modal-footer">
+								</div>
 					</div>
 				</div>
 			</div>			
@@ -72,7 +84,6 @@
 					<div v-for="row in  payDay.payments" :key="row.id_payment" class="pay payments">
 						<div class="pay icon"><img class="img_icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
 						</div>
-						
 						<div class="pay type">{{ row.name_type_payment }}</div>
 						<div class="pay sum" :class="{ 'sum_green': row.sumPayment > 0 }">{{ numStrFormat(row.sumPayment) + ' UAH &nbsp;&nbsp;' }}</div>
 						<div class="pay note">{{ row.purpPayment }}</div>
@@ -113,6 +124,7 @@
 				errors: [],
 				lastDate: '',
 				strDate: '',
+				tempId: 0,
 			}
 		},
 		
@@ -124,7 +136,19 @@
 			...mapActions({
 				updatePayments: 'card/updatePayments'
 			}),
-			
+
+			copyTemplate() {
+				let tempPayment = this.datalist['card_' + this.idCurrentCard].find(payment => payment.id_payment === this.tempId);
+				console.log('----EditPayment.vue: copyTemplate -> tempPayment----');
+				console.log(tempPayment);
+				if(!this.newRecord.purpPayment || (this.newRecord.purpPayment && confirm('Поле "описание платежа"  не пустое. Заместить содержание?'))) {
+					this.newRecord.id_type_payment = tempPayment.id_type_payment
+					this.newRecord.purpPayment = tempPayment.purpPayment
+				}
+
+
+			},
+
 			async readTypePayment() {
 				try {
 					this.setIsLoading(true)
@@ -153,6 +177,7 @@
 			addNewRecord() {
 				this.titleModal = 'Новая запись';
 				this.strDate = '';
+				this.tempId = 0;
 				this.newRecord = {
 					id_payment: 0,
 					id_type_payment: 0,
@@ -236,6 +261,7 @@
 				idCurrentCard: state => state.card.idCurrentCard,
 				isLocalhost: state => state.card.isLocalhost,
 				isLoading: state => state.card.isLoading,
+				datalist: state => state.card.datalist,
 			}),
 		},
 		
@@ -246,7 +272,7 @@
 </script>
 
 <style scoped>
-
+	
 	img.img_select {
 	width: 22px;
 	height: 22px;
@@ -381,4 +407,4 @@
 	font-size: 18px;
 	}
 	
-	</style>
+</style>

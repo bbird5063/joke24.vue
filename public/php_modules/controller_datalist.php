@@ -20,8 +20,13 @@
 			for ($i = 0; $i < $count; ++$i) {
 				$resultDatalist->data_seek($i);
 				$arrDatalist = $resultDatalist->fetch_array(MYSQLI_ASSOC);
-				if($purpPaymentShort !== mb_substr($arrDatalist['purpPayment'], 0, 100)) {
-					$purpPaymentShort = mb_substr($arrDatalist['purpPayment'], 0, 100);
+				$purpPaymentShortCurr = str_replace("\t", "", $arrDatalist['purpPayment']);
+				$purpPaymentShortCurr = str_replace("\r", "", $purpPaymentShortCurr);
+				$purpPaymentShortCurr = str_replace("\n", "", $purpPaymentShortCurr);
+				$purpPaymentShortCurr = mb_substr($purpPaymentShortCurr, 0, 30) . '...';
+
+				if($purpPaymentShort !== $purpPaymentShortCurr) {
+					$purpPaymentShort = $purpPaymentShortCurr;
 					$row_datalist = array(
 					'id_payment' => $arrDatalist['id_payment'],
 					'id_type_payment' => $arrDatalist['id_type_payment'],
