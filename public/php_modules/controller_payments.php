@@ -11,10 +11,11 @@
 		$id_date_payment = idDatePayment($connect, $_GET['newRecord']['date_payment']);
 		
 		$sql = "
-		INSERT INTO `payment` (`id_date_payment`, `id_card`, `id_type_payment`, `time_payment`, `purpPayment`, `sumPayment`) VALUES ( 
+		INSERT INTO `payment` (`id_date_payment`, `id_card`, `id_type_payment`, `important`, `time_payment`, `purpPayment`, `sumPayment`) VALUES ( 
 		$id_date_payment ," . 
 		$_GET['newRecord']['id_card'] . "," .
 		$_GET['newRecord']['id_type_payment'] . ",'" .
+		$_GET['newRecord']['important'] . ",'" .
 		$_GET['newRecord']['time_payment'] . "','" .
 		$_GET['newRecord']['purpPayment'] . "'," .
 		$_GET['newRecord']['sumPayment'] . ");";
@@ -30,6 +31,7 @@
 		"`id_date_payment`='$id_date_payment'," . 
 		"`id_card`='" . $_GET['editedRecord']['id_card'] . "'," .
 		"`id_type_payment`='" . $_GET['editedRecord']['id_type_payment'] . "'," .
+		"`important`='" . $_GET['editedRecord']['important'] . "'," .
 		"`time_payment`='" . $_GET['editedRecord']['time_payment'] . "'," .
 		"`purpPayment`='" . $_GET['editedRecord']['purpPayment'] . "'," .
 		"`sumPayment`='" . $_GET['editedRecord']['sumPayment'] . "'" .
@@ -53,15 +55,15 @@
 			$arrCards = $resultCards->fetch_array(MYSQLI_ASSOC);
 			$idCard = $arrCards['id_card'];
 			$sql = "
-			SELECT payment.*, day_payment.date_payment, 
+			SELECT payment.*, date_payment.date_payment, 
 			type_payment.name_type_payment 
 			FROM 
 			(payment 
-			LEFT JOIN day_payment ON payment.id_date_payment = day_payment.id_date_payment) 
+			LEFT JOIN date_payment ON payment.id_date_payment = date_payment.id_date_payment) 
 			LEFT JOIN type_payment ON payment.id_type_payment = type_payment.id_type_payment 
 			WHERE payment.id_card=$idCard 
 			ORDER BY 
-			day_payment.date_payment DESC,
+			date_payment.date_payment DESC,
 			payment.time_payment DESC;
 			";
 			$result = $connect->query($sql);
@@ -87,6 +89,7 @@
 					$row_payment['payments'][] = array(
 					'id_payment' 				=> $arrFields['id_payment'],
 					'id_type_payment' 	=> $arrFields['id_type_payment'],
+					'important' 	=> $arrFields['important'],
 					'name_type_payment' => $arrFields['name_type_payment'],
 					'time_payment' 			=> $arrFields['time_payment'],
 					'purpPayment' 			=> $arrFields['purpPayment'],
@@ -116,12 +119,11 @@
  
 
 	function idDatePayment(&$connect, $date_payment) {
-		//$connect = new mysqli(BBR_DBSERVER, BBR_DBUSER, BBR_DBPASSWORD, BBR_DATABASE);
-		$sql = "SELECT id_date_payment FROM day_payment WHERE date_payment='$date_payment';";
+		$sql = "SELECT id_date_payment FROM date_payment WHERE date_payment='$date_payment';";
 		$result = $connect->query($sql);
 		$count_rows = $result->num_rows;
 		if($count_rows == 0) {
-			$sql = "INSERT INTO day_payment (date_payment) VALUES ('$date_payment');";
+			$sql = "INSERT INTO date_payment (date_payment) VALUES ('$date_payment');";
 			$connect->query($sql);
 			return $connect->insert_id;
 		}

@@ -30,7 +30,7 @@
 									<label style="margin-left: 20px;" for="date_payment">{{ strDate }}</label>
 								</div>
 								<input style="width: 100px;" v-model="newRecord.time_payment" name="time_payment" type="time" class="form-control">
-
+								
 								<div class="input-group">
 									<select v-model="tempId" class="form-select form-select-sm" style="height: 37.8px"  name="id_type_payment">
 										<option value="0" selected>--- Выберите шаблон ---</option>
@@ -38,7 +38,7 @@
 											{{ option.purpPaymentShort }}
 										</option>
 									</select>
-									<button @click="copyTemplate()" type="button" class="btn btn-primary" title="Применить шаблон"><i class="fa fa-clone"></i></button>															
+									<button @click="copyTemplate()" type="button" class="btn btn-primary" title="Применить шаблон"><i class="fa fa-clone"></i></button>
 								</div>
 								
 								<div class="input-group">
@@ -51,18 +51,19 @@
 											{{ type.name_type_payment }}
 										</option>
 									</select>
+									<span class="input-group-text"><i @click.prevent="newRecord.important=newRecord.important?0:1" class="fa" :class="{ 'fa-star': newRecord.important, 'fa-star-o': !newRecord.important }"></i></span>
 								</div>
-
+								
 								<textarea v-model="newRecord.purpPayment" name="purpPayment" class="form-control" rows="3" placeholder="Описание платежа"></textarea>
 								<input v-model="newRecord.sumPayment" name="sumPayment" type="text" class="form-control" style="text-align:right;" placeholder="Сумма платежа">
 								
 								<button type="submit" class="btn btn-success">Сохранить</button>
 								<button style="margin-left: 2px" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-								</form>
-								
-								</div>
-								<div class="modal-footer">
-								</div>
+							</form>
+							
+						</div>
+						<div class="modal-footer">
+						</div>
 					</div>
 				</div>
 			</div>			
@@ -82,7 +83,9 @@
 				<div class="pay total">{{ numStrFormat(payDay.totalSum) + ' UAH&nbsp;&nbsp;' }}</div>
 				<div class="div_payments">
 					<div v-for="row in  payDay.payments" :key="row.id_payment" class="pay payments">
-						<div class="pay icon"><img class="img_icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
+						<div class="pay icon">
+							<img class="img_icon" :src="'/img/icons/' + row.id_type_payment + '.png'" alt="">
+						<span v-if="row.important" style="margin: 6px;"><i class="fa" :class="{ 'fa-star': row.important, 'fa-star-o': !row.important }"></i></span>
 						</div>
 						<div class="pay type">{{ row.name_type_payment }}</div>
 						<div class="pay sum" :class="{ 'sum_green': row.sumPayment > 0 }">{{ numStrFormat(row.sumPayment) + ' UAH &nbsp;&nbsp;' }}</div>
@@ -136,7 +139,7 @@
 			...mapActions({
 				updatePayments: 'card/updatePayments'
 			}),
-
+			
 			copyTemplate() {
 				let tempPayment = this.datalist['card_' + this.idCurrentCard].find(payment => payment.id_payment === this.tempId);
 				console.log('----EditPayment.vue: copyTemplate -> tempPayment----');
@@ -145,10 +148,10 @@
 					this.newRecord.id_type_payment = tempPayment.id_type_payment
 					this.newRecord.purpPayment = tempPayment.purpPayment
 				}
-
-
+				
+				
 			},
-
+			
 			async readTypePayment() {
 				try {
 					this.setIsLoading(true)
@@ -181,6 +184,7 @@
 				this.newRecord = {
 					id_payment: 0,
 					id_type_payment: 0,
+					important: 0,
 					time_payment: '',
 					purpPayment: '',
 					sumPayment: '',
@@ -195,6 +199,7 @@
 				this.newRecord = {
 					id_payment: row.id_payment,
 					id_type_payment: row.id_type_payment,
+					important: row.important,
 					time_payment: row.time_payment,
 					purpPayment: row.purpPayment,
 					sumPayment: row.sumPayment,
